@@ -8,6 +8,7 @@ public class Produto implements Serializable, Comparable<Produto> {
     private int id;
     private String nome;
     private double preco;
+    private String url;
 
     public int getId() {
         return id;
@@ -31,6 +32,14 @@ public class Produto implements Serializable, Comparable<Produto> {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
