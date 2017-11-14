@@ -114,11 +114,14 @@ public class AdministradorDAO {
     
     public void publicar(Produto produto) {
         String sql = "INSERT INTO produto "
-                + "(nome, preco, url) "
+                + "(nome, preco, url, descricao, usuario_id, categoria) "
                 + "VALUES"
                 + "('" + produto.getNome() + "',"
                 + produto.getPreco()+ ","
-                +"'" + produto.getUrl()+ "');";
+                +"'" + produto.getUrl()+ "',"
+                +"'" + produto.getDescricao()+ "',"
+                +"'" + produto.getUsuario_id()+ "',"
+                +"'" + produto.getCategoria()+ "');";
         System.out.println("sql insert:" + sql);
         try {
             Statement stm = con.createStatement();
@@ -131,6 +134,24 @@ public class AdministradorDAO {
     public void excluir_produto(int id) {
         String sql = "DELETE FROM produto WHERE id = "+ id + ";";
         System.out.println("sql insert:" + sql);
+        try {
+            Statement stm = con.createStatement();
+            stm.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void alterar_produto(Produto produto) {
+        String sql = "UPDATE produto SET"            
+                + "nome='" + produto.getNome() 
+                + "',preco='" + produto.getPreco()
+                + "',url='" + produto.getUrl()
+                + "',descricao='"+ produto.getDescricao() 
+                + "',usuario_id='"+ produto.getUsuario_id() 
+                + "',categoria='"+ produto.getCategoria()+ 
+                "' WHERE id = "+ produto.getId() + ";";
+        System.out.println("sql update:" + sql);
         try {
             Statement stm = con.createStatement();
             stm.execute(sql);

@@ -15,11 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+;
+
 /**
  *
  * @author Matheus
  */
-public class ClienteServlet extends HttpServlet {
+public class AdministradorServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,8 +35,8 @@ public class ClienteServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        Cliente a = null;
-        Favorito b = null;
+        Administrador a = null;
+        Produto b = null;
         String op = "list";
         String destino = "aluno_list.jsp";
         if ((request.getParameter("op") != null)
@@ -57,14 +59,11 @@ public class ClienteServlet extends HttpServlet {
         } else if (op.equalsIgnoreCase("DEL")) {
             a = remover(request, response);
             destino = "aluno_list.jsp";
-        }else if (op.equalsIgnoreCase("INC_F")) {
-            b = incluir_favorito(request, response);
+        }else if (op.equalsIgnoreCase("INC_P")) {
+            b = incluir_produto(request, response);
             destino = "aluno_list.jsp";
-        }else if (op.equalsIgnoreCase("LIST_F")) {
-            listar_favorito(request, response);
-            destino = "aluno_list.jsp";
-        }else if (op.equalsIgnoreCase("DEL_F")) {
-            b = remover_favorito(request, response);
+        }else if (op.equalsIgnoreCase("DEL")) {
+            b = remover_produto(request, response);
             destino = "aluno_list.jsp";
         }
         //
@@ -73,18 +72,18 @@ public class ClienteServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
     
-    protected Cliente carregarDados(HttpServletRequest request,
+    protected Administrador carregarDados(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
         
-        Cliente a = null;
+        Administrador a = null;
         String nome = request.getParameter("nome");
         String login = request.getParameter("login");
         String senha = request.getParameter("senha");
         String email = request.getParameter("email");
         
-        //cria objeto de Cliente
-        a = new Cliente();
+        //cria objeto de Administrador
+        a = new Administrador();
         a.setId(0);
         a.setNome(nome);
         a.setLogin(login);
@@ -94,35 +93,35 @@ public class ClienteServlet extends HttpServlet {
         return a;
     }
     
-    protected Cliente incluir(HttpServletRequest request,
+    protected Administrador incluir(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
 
-        Cliente a = carregarDados(request, response);
-        ClienteDAO clienteDAO = new ClienteDAO();
-        clienteDAO.incluir(a);
-        request.setAttribute("cliente", a);
+        Administrador a = carregarDados(request, response);
+        AdministradorDAO administradorDAO = new AdministradorDAO();
+        administradorDAO.incluir(a);
+        request.setAttribute("administrador", a);
         return a;
     }
     
     protected void listar(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        ClienteDAO clienteDAO = new ClienteDAO();
-        List<Cliente> clientes = clienteDAO.listar();
-        request.setAttribute("clientes", clientes);
+        AdministradorDAO administradorDAO = new AdministradorDAO();
+        List<Administrador> administradores = administradorDAO.listar();
+        request.setAttribute("administradores", administradores);
     }
     
-    protected Cliente alterar(HttpServletRequest request,
+    protected Administrador alterar(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
         
         HttpSession session = request.getSession();
-        List<Cliente> clientes = new LinkedList<Cliente>();
-        if (session.getAttribute("clientes") != null) {
-            clientes = (List<Cliente>) session.getAttribute("clientes");
+        List<Administrador> administradores = new LinkedList<Administrador>();
+        if (session.getAttribute("administradores") != null) {
+            administradores = (List<Administrador>) session.getAttribute("administradores");
         }
-        Cliente a = carregarDados(request, response);
+        Administrador a = carregarDados(request, response);
         String idStr = request.getParameter("id");
         int id = -1;
         if ((idStr != null) && (!idStr.isEmpty())) {
@@ -130,8 +129,8 @@ public class ClienteServlet extends HttpServlet {
         }
         a.setId(id);
         int pos = -1;
-        for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getId() == id) {
+        for (int i = 0; i < administradores.size(); i++) {
+            if (administradores.get(i).getId() == id) {
                 pos = i;
             }
         }
@@ -140,46 +139,46 @@ public class ClienteServlet extends HttpServlet {
             request.setAttribute("msg",
                     "Não existe o id!");
         } else {
-            clientes.set(pos, a);
-            session.setAttribute("clientes", clientes);
-            request.setAttribute("cliente", a);
+            administradores.set(pos, a);
+            session.setAttribute("administradores", administradores);
+            request.setAttribute("administrador", a);
         }
 
         return a;
     }
     
-    protected Cliente selecionar(HttpServletRequest request,
+    protected Administrador selecionar(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
         
         HttpSession session = request.getSession();
-        List<Cliente> clientes = new LinkedList<Cliente>();
-        if (session.getAttribute("clientes") != null) {
-            clientes = (List<Cliente>) session.getAttribute("clientes");
+        List<Administrador> administradores = new LinkedList<Administrador>();
+        if (session.getAttribute("administradores") != null) {
+            administradores = (List<Administrador>) session.getAttribute("administradores");
         }
         String idStr = request.getParameter("id");
         int id = -1;
         if ((idStr != null) && (!idStr.isEmpty())) {
             id = Integer.parseInt(idStr);
         }
-        Cliente a = null;
-        for (Cliente e : clientes) {
+        Administrador a = null;
+        for (Administrador e : administradores) {
             if (e.getId() == id) {
                 a = e;
             }
         }
-        request.setAttribute("cliente", a);
+        request.setAttribute("administradores", a);
         return a;
     }
     
-    protected Cliente remover(HttpServletRequest request,
+    protected Administrador remover(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
         
         HttpSession session = request.getSession();
-        List<Cliente> clientes = new LinkedList<Cliente>();
-        if (session.getAttribute("clientes") != null) {
-            clientes = (List<Cliente>) session.getAttribute("clientes");
+        List<Administrador> administradores = new LinkedList<Administrador>();
+        if (session.getAttribute("administradores") != null) {
+            administradores = (List<Administrador>) session.getAttribute("administradores");
         }
 
         String idStr = request.getParameter("id");
@@ -188,110 +187,104 @@ public class ClienteServlet extends HttpServlet {
             id = Integer.parseInt(idStr);
         }
         int pos = -1;
-        for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getId() == id) {
+        for (int i = 0; i < administradores.size(); i++) {
+            if (administradores.get(i).getId() == id) {
                 pos = i;
             }
         }
         //
-        Cliente a = null;
+        Administrador a = null;
         //
         if (pos == -1) {
             request.setAttribute("msg",
                     "Não existe o id!");
         } else {
-            a = clientes.get(pos);
-            clientes.remove(a);
-            session.setAttribute("clientes", clientes);
-            request.setAttribute("cliente", a);
+            a = administradores.get(pos);
+            administradores.remove(a);
+            session.setAttribute("administradores", administradores);
+            request.setAttribute("administrador", a);
         }
         return a;
     }
     
-    protected Favorito dados_favoritos(HttpServletRequest request,
+    protected Produto dados_produto(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
         
-        Favorito a = null;
-        String clienteStr = request.getParameter("usuario_id");
-        String produtoStr = request.getParameter("produto_id");
-        int cliente = -1, produto = -1;
-        if ((clienteStr != null) && (!clienteStr.isEmpty())) {
-            cliente = Integer.parseInt(clienteStr);
+        Produto a = null;
+        String nome = request.getParameter("nome");
+        String url = request.getParameter("url");
+        String descricao = request.getParameter("descricao");
+        String categoria = request.getParameter("categoria");
+        String precoStr = request.getParameter("preco");
+        String adminStr = request.getParameter("usuario_id");
+        double preco = -1;
+        if ((precoStr != null) && (!precoStr.isEmpty())) {
+            preco = Double.parseDouble(precoStr);
         }
-        if ((produtoStr != null) && (!produtoStr.isEmpty())) {
-            produto = Integer.parseInt(produtoStr);
+        int admin = -1;
+        if ((adminStr != null) && (!adminStr.isEmpty())) {
+            admin = Integer.parseInt(adminStr);
         }
-        
-        //cria objeto de Favorito
-        a = new Favorito();
-        a.setUsuario_id(cliente);
-        a.setProduto_id(produto);
-        
+        //cria objeto de Administrador
+        a = new Produto();
+        a.setId(0);
+        a.setNome(nome);
+        a.setPreco(preco);
+        a.setUrl(url);
+        a.setUsuario_id(admin);
+        a.setDescricao(descricao);
+        a.setCategoria(categoria);
+    
         return a;
     }
     
-    protected Favorito incluir_favorito(HttpServletRequest request,
+    protected Produto incluir_produto(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
 
-        Favorito a = dados_favoritos(request, response);
-        ClienteDAO clienteDAO = new ClienteDAO();
-        clienteDAO.preferir(a);
-        request.setAttribute("favorito", a);
+        Produto a = dados_produto(request, response);
+        AdministradorDAO administradorDAO = new AdministradorDAO();
+        administradorDAO.publicar(a);
+        request.setAttribute("produto", a);
         return a;
     }
     
-    protected void listar_favorito(HttpServletRequest request,
-            HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        ClienteDAO clienteDAO = new ClienteDAO();
-        String clienteStr = request.getParameter("usuario_id");
-        int cliente = -1;
-        if ((clienteStr != null) && (!clienteStr.isEmpty())) {
-            cliente = Integer.parseInt(clienteStr);
-        }
-        List<Favorito> favoritos = clienteDAO.listar_favoritos(cliente);
-        request.setAttribute("favoritos", favoritos);
-    }
-    
-    protected Favorito remover_favorito(HttpServletRequest request,
+    protected Produto remover_produto(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
         
         HttpSession session = request.getSession();
-        List<Favorito> favoritos = new LinkedList<Favorito>();
-        if (session.getAttribute("favoritos") != null) {
-            favoritos = (List<Favorito>) session.getAttribute("favoritos");
+        List<Produto> produtos = new LinkedList<Produto>();
+        if (session.getAttribute("produtos") != null) {
+            produtos = (List<Produto>) session.getAttribute("produtos");
         }
 
-        String produtoStr = request.getParameter("produto_id");
-        int produto = -1;
-        if ((produtoStr != null) && (!produtoStr.isEmpty())) {
-            produto = Integer.parseInt(produtoStr);
+        String idStr = request.getParameter("id");
+        int id = -1;
+        if ((idStr != null) && (!idStr.isEmpty())) {
+            id = Integer.parseInt(idStr);
         }
         int pos = -1;
-        for (int i = 0; i < favoritos.size(); i++) {
-            if (favoritos.get(i).getProduto_id()== produto) {
+        for (int i = 0; i < produtos.size(); i++) {
+            if (produtos.get(i).getId() == id) {
                 pos = i;
             }
         }
         //
-        Favorito a = null;
+        Produto a = null;
         //
         if (pos == -1) {
             request.setAttribute("msg",
                     "Não existe o id!");
         } else {
-            a = favoritos.get(pos);
-            favoritos.remove(a);
-            session.setAttribute("favoritos", favoritos);
-            request.setAttribute("favorito", a);
+            a = produtos.get(pos);
+            produtos.remove(a);
+            session.setAttribute("produtos", produtos);
+            request.setAttribute("produto", a);
         }
         return a;
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

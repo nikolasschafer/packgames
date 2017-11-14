@@ -112,12 +112,12 @@ public class ClienteDAO {
         }
     }
     
-    public void preferir(int usuario_id, int produto_id) {
+    public void preferir(Favorito favorito) {
         String sql = "INSERT INTO preferir_produto "
                 + "(usuario_id, produto_id) "
                 + "VALUES"
-                + "(" + usuario_id + ","
-                + produto_id + ");";
+                + "(" + favorito.getUsuario_id() + ","
+                + favorito.getProduto_id()+ ");";
         System.out.println("sql insert:" + sql);
         try {
             Statement stm = con.createStatement();
@@ -127,8 +127,8 @@ public class ClienteDAO {
         }
     }
     
-    public void excluir_favorito(int usuario_id, int produto_id) {
-        String sql = "DELETE FROM preferir_produto WHERE usuario_id = "+ usuario_id + " && produto_id = "+ produto_id +";";
+    public void excluir_favorito(Favorito favorito) {
+        String sql = "DELETE FROM preferir_produto WHERE usuario_id = "+ favorito.getUsuario_id() + " && produto_id = "+ favorito.getProduto_id() +";";
         System.out.println("sql insert:" + sql);
         try {
             Statement stm = con.createStatement();
@@ -146,8 +146,8 @@ public class ClienteDAO {
                     executeQuery(sql);
             while (rs.next()) {
                 Favorito a = new Favorito();
-                a.setUsuario_id(rs.getInt("id"));
-                a.setProduto_id(rs.getInt("id"));
+                a.setUsuario_id(rs.getInt("usuario_id"));
+                a.setProduto_id(rs.getInt("produto_id"));
                 saida.add(a);
             }
         } catch (Exception e) {

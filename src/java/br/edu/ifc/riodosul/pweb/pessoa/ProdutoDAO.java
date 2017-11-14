@@ -38,6 +38,9 @@ public class ProdutoDAO {
                 a.setNome(rs.getString("nome"));
                 a.setPreco(rs.getDouble("preco"));
                 a.setUrl(rs.getString("url"));
+                a.setUsuario_id(rs.getInt("usuario_id"));
+                a.setDescricao(rs.getString("descricao"));
+                a.setCategoria(rs.getString("categoria"));
                 saida.add(a);
             }
         } catch (Exception e) {
@@ -58,6 +61,9 @@ public class ProdutoDAO {
                 saida.setNome(rs.getString("nome"));
                 saida.setPreco(rs.getDouble("preco"));
                 saida.setUrl(rs.getString("url"));
+                saida.setDescricao(rs.getString("descricao"));
+                saida.setUsuario_id(rs.getInt("usuario_id"));
+                saida.setCategoria(rs.getString("categoria"));
             }
         } catch (Exception e) {
             e.printStackTrace();

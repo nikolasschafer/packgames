@@ -12,23 +12,26 @@
     <body>
         <%@include file="topo.jsp" %>
         <div class="mx-auto w-50 p-3 mt-4" style="border: 1px solid #ccc; border-radius: 10px;">
-            <form>
+            <form method="POST" action="ClienteServlet">
                 <h3>Cadastrar cliente</h3>
+                <c:if test="${cliente==null}">
+                    <input type="hidden" name="op" value="inc"/>
+                </c:if>
                 <div class="form-group">
                     <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" aria-describedby="nomeHelp" placeholder="Nome" required>
+                    <input type="text" class="form-control" id="nome" aria-describedby="nomeHelp" placeholder="Nome" required name="nome" >
                 </div>
                 <div class="form-group">
                     <label for="login">Login</label>
-                    <input type="text" class="form-control" id="login" aria-describedby="loginHelp" placeholder="Login" required>
+                    <input type="text" class="form-control" id="login" aria-describedby="loginHelp" placeholder="Login" required name="login" >
                 </div>
                 <div class="form-group">
                     <label for="inputEmail1">E-mail</label>
-                    <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="E-mail" required>
+                    <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="E-mail" required name="senha" >
                 </div>
                 <div class="form-group">
                     <label for="inputPassword1">Senha</label>
-                    <input type="password" class="form-control" id="inputPassword1" placeholder="Senha" required>
+                    <input type="password" class="form-control" id="inputPassword1" placeholder="Senha" required name="email" >
                 </div>
                 <button type="submit" class="btn btn-success">Cadastrar</button>
                 <button type="reset" class="btn btn-danger">Limpar</button>
