@@ -6,9 +6,7 @@
     <body>
         <div id="main">
             <%@include file="topo.jsp" %>
-            <div id="content">
-                <h1>Bem vindo!</h1> 
-            </div>
+            <i class="material-icons">face</i>
             <%@include file="rodape.jsp" %>           
         </div>
     </body>
