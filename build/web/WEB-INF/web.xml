@@ -18,6 +18,10 @@
         <servlet-name>MatriculaServlet</servlet-name>
         <servlet-class>br.edu.ifc.riodosul.pweb.pessoa.MatriculaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ClienteServlet</servlet-name>
+        <servlet-class>br.edu.ifc.riodosul.pweb.pessoa.ClienteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AlunoServlet</servlet-name>
         <url-pattern>/AlunoServlet</url-pattern>
@@ -33,6 +37,10 @@
     <servlet-mapping>
         <servlet-name>MatriculaServlet</servlet-name>
         <url-pattern>/MatriculaServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ClienteServlet</servlet-name>
+        <url-pattern>/ClienteServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>5</session-timeout>
