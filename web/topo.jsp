@@ -64,7 +64,7 @@
         </div>
     </nav>
     <div class="w-100 text-primary">
-        <h1 class="mx-auto" style="text-align: center; font-size: 70px;">Pack Games</h1>
+        <h1 class="mx-auto mt-3" style="text-align: center; font-size: 70px;">Pack Games</h1>
     </div>
 
 </div>
