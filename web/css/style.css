@@ -23,7 +23,7 @@ and open the template in the editor.
     text-align: center;
     margin: 0 10px;
     margin-bottom: 10px;
-    width: 300px;
+    width: 300px !important;
     -webkit-transition: 0.3s ease-in;
     -moz-transition: 0.3s ease-in; 
     -o-transition: 0.3s ease-in
