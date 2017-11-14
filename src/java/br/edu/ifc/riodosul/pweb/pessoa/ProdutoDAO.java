@@ -48,7 +48,7 @@ public class ProdutoDAO {
     
     public Produto obter(int id) {
         Produto saida = null;
-        String sql = "SELECT * FROM usuario WHERE id = "+ id + " && admin = 0;";
+        String sql = "SELECT * FROM produto WHERE id = "+ id + ";";
         try {
             ResultSet rs = con.createStatement().
                     executeQuery(sql);
