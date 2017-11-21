@@ -47,7 +47,7 @@ public class ClienteServlet extends HttpServlet {
             destino = "cliente_list.jsp";
         } else if (op.equalsIgnoreCase("INC")) {
             a = incluir(request, response);
-            destino = "cliente_form.jsp";
+            destino = "index.jsp";
         } else if (op.equalsIgnoreCase("SEL")) {
             a = selecionar(request, response);
             destino = "cliente_form.jsp";
@@ -66,6 +66,11 @@ public class ClienteServlet extends HttpServlet {
         } else if (op.equalsIgnoreCase("DEL_F")) {
             b = remover_favorito(request, response);
             destino = "produto_list.jsp";
+        } else if (op.equalsIgnoreCase("LOGIN")) {
+            destino = logar(request, response);
+        } else if (op.equalsIgnoreCase("LOGOUT")) {
+            logout(request, response);
+            destino = "login.jsp";
         }
         //
         RequestDispatcher dispatcher = request
@@ -97,11 +102,12 @@ public class ClienteServlet extends HttpServlet {
     protected Cliente incluir(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-
+        HttpSession session = request.getSession();
         Cliente a = carregarDados(request, response);
         ClienteDAO clienteDAO = new ClienteDAO();
         clienteDAO.incluir(a);
-        request.setAttribute("cliente", a);
+        session.setAttribute("cliente", a);
+        request.setAttribute("msg", "Cadastro efetuado com sucesso, acompanhe a lista de nossos produtos!");
         return a;
     }
 
@@ -170,6 +176,32 @@ public class ClienteServlet extends HttpServlet {
         }
         request.setAttribute("cliente", a);
         return a;
+    }
+
+
+    protected String logar(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        ClienteDAO clienteDAO = new ClienteDAO();
+        Cliente cliente = clienteDAO.login(request.getParameter("login"), request.getParameter("senha"));
+        if (cliente == null) {
+            request.setAttribute("msg",
+                    "Login ou senha incorretos!");
+            return "login.jsp";
+        } else {
+            session.setAttribute("cliente", cliente);
+            return "produto_list.jsp";
+
+        }
+    }
+
+    protected void logout(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.invalidate();
     }
 
     protected Cliente remover(HttpServletRequest request,
