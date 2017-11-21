@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div>
 
     <nav class="navbar fixed-top navbar-dark bg-primary" style="padding-left: 100px; padding-right: 100px;">
@@ -11,14 +12,41 @@
             <button class="btn btn-primary btn-sm my-2 my-sm-0" type="submit"><i class="material-icons">search</i></button>
         </form>
         <ul class="nav">
-            <li class="nav-item">
-                <!--<a class="nav-link text-light active" href="#">Cadastrar</a>-->
-                <a href="login.jsp"><button type="button" class="btn btn-light text-secondary">Entrar</button></a>
-            </li>
+            <c:if test="${cliente==null}">
+                <li class="nav-item">
+                    <a href="ClienteServlet?op=LOGOUT"><button type="button" class="btn btn-light text-secondary">Entrar</button></a>
+                </li>
+            </c:if>
+            <c:if test="${cliente!=null}">
+                <li class="nav-item dropdown">
+                    <button class="nav-link dropdown-toggle btn btn-light" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        ${cliente.nome}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <c:if test="${cliente.admin==1}">
+                            <a class="dropdown-item" href="#">Clientes</a>
+                            <a class="dropdown-item" href="#">Produtos</a>
+                            <div class="dropdown-divider"></div>
+                        </c:if>
+                        <a class="dropdown-item" href="#">Favoritos</a>
+                        <a class="dropdown-item" href="#">Minha Conta</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="ClienteServlet?op=LOGOUT">Sair</a>
+                    </div>
+                </li>
+            </c:if>
         </ul>
     </nav>
 
     <div class="w-100 text-primary" style="margin-top: 80px; margin-bottom: 30px;">
+        <c:if test="${msg!=null}">
+            <div class="alert alert-success alert-dismissible fade show mx-auto w-75" role="alert">
+                <strong>Bem-vindo!</strong> ${msg}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </c:if>
         <h1 class="mx-auto" style="text-align: center; font-size: 70px;">Pack Games</h1>
     </div>
 

@@ -8,6 +8,7 @@ public abstract class Usuario {
     private String login;
     private String senha;
     private String email;
+    private int admin;
 
     public int getId() {
         return id;
@@ -48,6 +49,13 @@ public abstract class Usuario {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
+    public int getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(int admin) {
+        this.admin = admin;
+    }
             
 }

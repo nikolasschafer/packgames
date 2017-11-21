@@ -101,6 +101,27 @@ public class ClienteDAO {
         return saida;
     }
     
+        public Cliente login(String login, String senha) {
+        Cliente saida = null;
+        String sql = "SELECT * FROM usuario WHERE login = '"+ login + "' && senha = '"+ senha +"';";
+        try {
+            ResultSet rs = con.createStatement().
+                    executeQuery(sql);
+            if (rs.next()) {
+                saida = new Cliente();
+                saida.setId(rs.getInt("id"));
+                saida.setNome(rs.getString("nome"));
+                saida.setLogin(rs.getString("login"));
+                saida.setSenha(rs.getString("senha"));
+                saida.setEmail(rs.getString("email"));
+                saida.setAdmin(rs.getInt("admin"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return saida;
+    }
+    
     public void excluir(int id) {
         String sql = "DELETE FROM usuario WHERE id = "+ id + ";";
         System.out.println("sql insert:" + sql);

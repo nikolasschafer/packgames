@@ -47,7 +47,7 @@ public class ClienteServlet extends HttpServlet {
             destino = "aluno_list.jsp";
         } else if (op.equalsIgnoreCase("INC")) {
             a = incluir(request, response);
-            destino = "cliente_form.jsp";
+            destino = "index.jsp";
         } else if (op.equalsIgnoreCase("SEL")) {
             a = selecionar(request, response);
             destino = "aluno_form.jsp";
@@ -57,32 +57,37 @@ public class ClienteServlet extends HttpServlet {
         } else if (op.equalsIgnoreCase("DEL")) {
             a = remover(request, response);
             destino = "aluno_list.jsp";
-        }else if (op.equalsIgnoreCase("INC_F")) {
+        } else if (op.equalsIgnoreCase("INC_F")) {
             b = incluir_favorito(request, response);
             destino = "aluno_list.jsp";
-        }else if (op.equalsIgnoreCase("LIST_F")) {
+        } else if (op.equalsIgnoreCase("LIST_F")) {
             listar_favorito(request, response);
             destino = "aluno_list.jsp";
-        }else if (op.equalsIgnoreCase("DEL_F")) {
+        } else if (op.equalsIgnoreCase("DEL_F")) {
             b = remover_favorito(request, response);
             destino = "aluno_list.jsp";
+        } else if (op.equalsIgnoreCase("LOGIN")) {
+            destino = logar(request, response);
+        } else if (op.equalsIgnoreCase("LOGOUT")) {
+            logout(request, response);
+            destino = "login.jsp";
         }
         //
         RequestDispatcher dispatcher = request
                 .getRequestDispatcher(destino);
         dispatcher.forward(request, response);
     }
-    
+
     protected Cliente carregarDados(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         Cliente a = null;
         String nome = request.getParameter("nome");
         String login = request.getParameter("login");
         String senha = request.getParameter("senha");
         String email = request.getParameter("email");
-        
+
         //cria objeto de Cliente
         a = new Cliente();
         a.setId(0);
@@ -90,21 +95,22 @@ public class ClienteServlet extends HttpServlet {
         a.setLogin(login);
         a.setSenha(senha);
         a.setEmail(email);
-    
+
         return a;
     }
-    
+
     protected Cliente incluir(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-
+        HttpSession session = request.getSession();
         Cliente a = carregarDados(request, response);
         ClienteDAO clienteDAO = new ClienteDAO();
         clienteDAO.incluir(a);
-        request.setAttribute("cliente", a);
+        session.setAttribute("cliente", a);
+        request.setAttribute("msg", "Cadastro efetuado com sucesso, acompanhe a lista de nossos produtos!");
         return a;
     }
-    
+
     protected void listar(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
@@ -112,11 +118,11 @@ public class ClienteServlet extends HttpServlet {
         List<Cliente> clientes = clienteDAO.listar();
         request.setAttribute("clientes", clientes);
     }
-    
+
     protected Cliente alterar(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
         List<Cliente> clientes = new LinkedList<Cliente>();
         if (session.getAttribute("clientes") != null) {
@@ -147,11 +153,11 @@ public class ClienteServlet extends HttpServlet {
 
         return a;
     }
-    
+
     protected Cliente selecionar(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
         List<Cliente> clientes = new LinkedList<Cliente>();
         if (session.getAttribute("clientes") != null) {
@@ -171,11 +177,36 @@ public class ClienteServlet extends HttpServlet {
         request.setAttribute("cliente", a);
         return a;
     }
-    
+
+    protected String logar(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        ClienteDAO clienteDAO = new ClienteDAO();
+        Cliente cliente = clienteDAO.login(request.getParameter("login"), request.getParameter("senha"));
+        if (cliente == null) {
+            request.setAttribute("msg",
+                    "Login ou senha incorretos!");
+            return "login.jsp";
+        } else {
+            session.setAttribute("cliente", cliente);
+            return "produto_list.jsp";
+
+        }
+    }
+
+    protected void logout(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.invalidate();
+    }
+
     protected Cliente remover(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
         List<Cliente> clientes = new LinkedList<Cliente>();
         if (session.getAttribute("clientes") != null) {
@@ -207,11 +238,11 @@ public class ClienteServlet extends HttpServlet {
         }
         return a;
     }
-    
+
     protected Favorito dados_favoritos(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         Favorito a = null;
         String clienteStr = request.getParameter("usuario_id");
         String produtoStr = request.getParameter("produto_id");
@@ -222,15 +253,15 @@ public class ClienteServlet extends HttpServlet {
         if ((produtoStr != null) && (!produtoStr.isEmpty())) {
             produto = Integer.parseInt(produtoStr);
         }
-        
+
         //cria objeto de Favorito
         a = new Favorito();
         a.setUsuario_id(cliente);
         a.setProduto_id(produto);
-        
+
         return a;
     }
-    
+
     protected Favorito incluir_favorito(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
@@ -241,11 +272,11 @@ public class ClienteServlet extends HttpServlet {
         request.setAttribute("favorito", a);
         return a;
     }
-    
+
     protected void listar_favorito(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         ClienteDAO clienteDAO = new ClienteDAO();
         String clienteStr = request.getParameter("usuario_id");
         int cliente = -1;
@@ -255,11 +286,11 @@ public class ClienteServlet extends HttpServlet {
         List<Favorito> favoritos = clienteDAO.listar_favoritos(cliente);
         request.setAttribute("favoritos", favoritos);
     }
-    
+
     protected Favorito remover_favorito(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
         List<Favorito> favoritos = new LinkedList<Favorito>();
         if (session.getAttribute("favoritos") != null) {
@@ -273,7 +304,7 @@ public class ClienteServlet extends HttpServlet {
         }
         int pos = -1;
         for (int i = 0; i < favoritos.size(); i++) {
-            if (favoritos.get(i).getProduto_id()== produto) {
+            if (favoritos.get(i).getProduto_id() == produto) {
                 pos = i;
             }
         }
@@ -291,7 +322,6 @@ public class ClienteServlet extends HttpServlet {
         }
         return a;
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
