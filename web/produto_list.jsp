@@ -18,7 +18,7 @@
                         <p>Nome: ${o.nome}</p>
                         <p>Preço: ${o.preco}</p>
                         <p>Categoria: ${o.categoria}</p>
-                        <a class="favorito" href="ClienteServlet?op=list_f"><button type="button" class="btn btn-outline-danger"><i class="material-icons">favorite_border</i> </button></a>
+                        <a class="favorito" href="ClienteServlet?op=inc_f"><button type="button" class="btn btn-outline-danger"><i class="material-icons">favorite_border</i> </button></a>
                     </div>   
                 </c:forEach>
             </div>

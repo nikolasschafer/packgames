@@ -62,7 +62,7 @@ public class ClienteServlet extends HttpServlet {
             destino = "produto_list.jsp";
         } else if (op.equalsIgnoreCase("LIST_F")) {
             listar_favorito(request, response);
-            destino = "favorito_list.jsp";
+            destino = "produto_list.jsp";
         } else if (op.equalsIgnoreCase("DEL_F")) {
             b = remover_favorito(request, response);
             destino = "produto_list.jsp";
@@ -178,7 +178,6 @@ public class ClienteServlet extends HttpServlet {
         return a;
     }
 
-
     protected String logar(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
@@ -278,28 +277,26 @@ public class ClienteServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
         ClienteDAO clienteDAO = new ClienteDAO();
-        String clienteStr = request.getParameter("usuario_id");
-        int cliente = -1;
-        if ((clienteStr != null) && (!clienteStr.isEmpty())) {
-            cliente = Integer.parseInt(clienteStr);
-        }
-        List<Favorito> favoritos = clienteDAO.listar_favoritos(cliente);
-        List<Produto> produtos_f = null;
+        Cliente cliente = (Cliente) session.getAttribute("cliente");
+        List<Favorito> favoritos = clienteDAO.listar_favoritos(cliente.getId());
+        List<Produto> produtos = new LinkedList<Produto>();
         ProdutoDAO produtoDAO = new ProdutoDAO();
-        List<Produto> produtos = produtoDAO.listar();
-        for (int i = 1; i <= favoritos.size(); i++) {
+        List<Produto> aux_produtos = produtoDAO.listar();
+
+        for (int i = 0; i <= favoritos.size() - 1; i++) {
             Favorito fav = new Favorito();
             fav = favoritos.get(i);
-            for (int j = 1; j <= produtos.size(); j++) {
+            for (int j = 0; j <= aux_produtos.size() - 1; j++) {
                 Produto produto = new Produto();
-                produto = produtos.get(i);
-                if(produto.getId() == fav.getProduto_id()){
-                    produtos_f.add(produto);
+                produto = aux_produtos.get(j);
+                if (produto.getId() == fav.getProduto_id()) {
+                    produtos.add(produto);
                 }
             }
         }
-        request.setAttribute("produtos_f", produtos_f);
+        request.setAttribute("produtos", produtos);
     }
 
     protected Favorito remover_favorito(HttpServletRequest request,
