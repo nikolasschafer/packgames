@@ -192,7 +192,7 @@ public class ClienteServlet extends HttpServlet {
             return "login.jsp";
         } else {
             session.setAttribute("cliente", cliente);
-            return "produto_list.jsp";
+            return "ProdutoServlet?op=list";
 
         }
     }
