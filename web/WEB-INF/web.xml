@@ -3,22 +3,6 @@
     <description>exemplo de aula do ifc-riodosul</description>
     <display-name>Exemplo de Aluno</display-name>
     <servlet>
-        <servlet-name>AlunoServlet</servlet-name>
-        <servlet-class>br.edu.ifc.riodosul.pweb.pessoa.AlunoServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>CursoServlet</servlet-name>
-        <servlet-class>br.edu.ifc.riodosul.pweb.pessoa.CursoServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DisciplinaServlet</servlet-name>
-        <servlet-class>br.edu.ifc.riodosul.pweb.pessoa.DisciplinaServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>MatriculaServlet</servlet-name>
-        <servlet-class>br.edu.ifc.riodosul.pweb.pessoa.MatriculaServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ClienteServlet</servlet-name>
         <servlet-class>br.edu.ifc.riodosul.pweb.pessoa.ClienteServlet</servlet-class>
     </servlet>
@@ -30,22 +14,6 @@
         <servlet-name>ProdutoServlet</servlet-name>
         <servlet-class>br.edu.ifc.riodosul.pweb.pessoa.ProdutoServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>AlunoServlet</servlet-name>
-        <url-pattern>/AlunoServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CursoServlet</servlet-name>
-        <url-pattern>/CursoServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DisciplinaServlet</servlet-name>
-        <url-pattern>/DisciplinaServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>MatriculaServlet</servlet-name>
-        <url-pattern>/MatriculaServlet</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ClienteServlet</servlet-name>
         <url-pattern>/ClienteServlet</url-pattern>

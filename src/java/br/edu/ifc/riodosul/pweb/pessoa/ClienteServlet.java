@@ -36,7 +36,7 @@ public class ClienteServlet extends HttpServlet {
         Cliente a = null;
         Favorito b = null;
         String op = "list";
-        String destino = "aluno_list.jsp";
+        String destino = "cliente_list.jsp";
         if ((request.getParameter("op") != null)
                 && (!request.getParameter("op").isEmpty())) {
             op = request.getParameter("op");
@@ -44,28 +44,28 @@ public class ClienteServlet extends HttpServlet {
         //
         if (op.equalsIgnoreCase("LIST")) {
             listar(request, response);
-            destino = "aluno_list.jsp";
+            destino = "cliente_list.jsp";
         } else if (op.equalsIgnoreCase("INC")) {
             a = incluir(request, response);
-            destino = "index.jsp";
+            destino = "prodito_list.jsp";
         } else if (op.equalsIgnoreCase("SEL")) {
             a = selecionar(request, response);
-            destino = "aluno_form.jsp";
+            destino = "cliente_form.jsp";
         } else if (op.equalsIgnoreCase("ALT")) {
             a = alterar(request, response);
-            destino = "aluno_list.jsp";
+            destino = "cliente_list.jsp";
         } else if (op.equalsIgnoreCase("DEL")) {
             a = remover(request, response);
-            destino = "aluno_list.jsp";
+            destino = "cliente_list.jsp";
         } else if (op.equalsIgnoreCase("INC_F")) {
             b = incluir_favorito(request, response);
-            destino = "aluno_list.jsp";
+            destino = "produto_list.jsp";
         } else if (op.equalsIgnoreCase("LIST_F")) {
             listar_favorito(request, response);
-            destino = "aluno_list.jsp";
+            destino = "favorito_list.jsp";
         } else if (op.equalsIgnoreCase("DEL_F")) {
             b = remover_favorito(request, response);
-            destino = "aluno_list.jsp";
+            destino = "produto_list.jsp";
         } else if (op.equalsIgnoreCase("LOGIN")) {
             destino = logar(request, response);
         } else if (op.equalsIgnoreCase("LOGOUT")) {
@@ -178,6 +178,7 @@ public class ClienteServlet extends HttpServlet {
         return a;
     }
 
+
     protected String logar(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
@@ -191,7 +192,7 @@ public class ClienteServlet extends HttpServlet {
             return "login.jsp";
         } else {
             session.setAttribute("cliente", cliente);
-            return "produto_list.jsp";
+            return "ProdutoServlet?op=list";
 
         }
     }
@@ -284,7 +285,21 @@ public class ClienteServlet extends HttpServlet {
             cliente = Integer.parseInt(clienteStr);
         }
         List<Favorito> favoritos = clienteDAO.listar_favoritos(cliente);
-        request.setAttribute("favoritos", favoritos);
+        List<Produto> produtos_f = null;
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        List<Produto> produtos = produtoDAO.listar();
+        for (int i = 1; i <= favoritos.size(); i++) {
+            Favorito fav = new Favorito();
+            fav = favoritos.get(i);
+            for (int j = 1; j <= produtos.size(); j++) {
+                Produto produto = new Produto();
+                produto = produtos.get(i);
+                if(produto.getId() == fav.getProduto_id()){
+                    produtos_f.add(produto);
+                }
+            }
+        }
+        request.setAttribute("produtos_f", produtos_f);
     }
 
     protected Favorito remover_favorito(HttpServletRequest request,

@@ -3,7 +3,7 @@
 <div>
 
     <nav class="navbar fixed-top navbar-dark bg-primary" style="padding-left: 100px; padding-right: 100px;">
-        <a class="navbar-brand" href="index.jsp">
+        <a class="navbar-brand" href="ProdutoServlet?op=list">
             <img src="img/game_white.png" width="30" height="30" class="d-inline-block align-top" alt="">
             <b>Pack Games</b>
         </a>

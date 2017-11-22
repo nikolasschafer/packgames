@@ -35,7 +35,7 @@ public class ProdutoServlet extends HttpServlet {
             throws ServletException, IOException {
         Produto a = null;
         String op = "list";
-        String destino = "aluno_list.jsp";
+        String destino = "produto_list.jsp";
         if ((request.getParameter("op") != null)
                 && (!request.getParameter("op").isEmpty())) {
             op = request.getParameter("op");
@@ -43,7 +43,7 @@ public class ProdutoServlet extends HttpServlet {
         //
         if (op.equalsIgnoreCase("LIST")) {
             listar(request, response);
-            destino = "aluno_list.jsp";
+            destino = "produto_list.jsp";
         } else if (op.equalsIgnoreCase("SEL")) {
             a = selecionar(request, response);
             destino = "aluno_form.jsp";
@@ -53,7 +53,7 @@ public class ProdutoServlet extends HttpServlet {
                 .getRequestDispatcher(destino);
         dispatcher.forward(request, response);
     }
-    
+
     protected void listar(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
@@ -61,11 +61,11 @@ public class ProdutoServlet extends HttpServlet {
         List<Produto> produtos = produtoDAO.listar();
         request.setAttribute("produtos", produtos);
     }
-    
+
     protected Produto selecionar(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession();
         List<Produto> produtos = new LinkedList<Produto>();
         if (session.getAttribute("produtos") != null) {
@@ -82,7 +82,7 @@ public class ProdutoServlet extends HttpServlet {
                 a = e;
             }
         }
-        request.setAttribute("produtos", a);
+        request.setAttribute("produto", a);
         return a;
     }
 
