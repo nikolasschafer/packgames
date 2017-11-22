@@ -13,9 +13,21 @@
                     <img src="img/no-image.jpg" class="w-100"/>
                     <p>Nome: PRODUTO TESTE</p>
                     <p>Preço: R$ 49,90</p>
-                    <a class="favorito" href="cliente_form.jsp"><button type="button" class="btn btn-outline-danger"><i class="material-icons">favorite_border</i> </button></a>
+                    <a class="favorito" href="#"><button type="button" class="btn favorito btn-danger"><i class="material-icons">favorite_border</i> </button></a>
+                </div>          
+                <div class="produto">
+                    <img src="img/no-image.jpg" class="w-100"/>
+                    <p>Nome: PRODUTO TESTE</p>
+                    <p>Preço: R$ 49,90</p>
+                    <a class="favorito" href="#"><button type="button" class="btn favorito btn-danger"><i class="material-icons">favorite_border</i> </button></a>
                 </div>          
             </div>
         </div>
+
+        <script>
+            $(".favorito").click(function () {
+                $(this).toggleClass( "btn-danger");
+            });
+        </script>
     </body>
 </html>
