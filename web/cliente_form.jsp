@@ -33,6 +33,14 @@
                     <label for="inputPassword1">Senha</label>
                     <input type="password" class="form-control" id="inputPassword1" placeholder="Senha" required name="email" >
                 </div>
+                <c:if test="${cliente.admin == 1}">
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input">
+                        Administrador
+                    </label>
+                </div>
+                </c:if>
                 <button type="submit" class="btn btn-success">Cadastrar</button>
                 <button type="reset" class="btn btn-danger">Limpar</button>
             </form>
