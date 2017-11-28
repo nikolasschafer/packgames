@@ -56,7 +56,7 @@ public class CategoriaServlet extends HttpServlet {
             destino = "categoria_list.jsp";
         } else if (op.equalsIgnoreCase("DEL")) {
             a = remover(request, response);
-            destino = "categoria_list.jsp";
+            destino = "categoria_list.jsp?op=list";
         }
         //
         RequestDispatcher dispatcher = request
@@ -91,12 +91,13 @@ public class CategoriaServlet extends HttpServlet {
         return a;
     }
 
-    protected void listar(HttpServletRequest request,
+    protected List<Categoria> listar(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
         CategoriaDAO categoriaDAO = new CategoriaDAO();
         List<Categoria> categorias = categoriaDAO.listar();
         request.setAttribute("categorias", categorias);
+        return categorias;
     }
 
     protected Categoria alterar(HttpServletRequest request,
@@ -164,10 +165,8 @@ public class CategoriaServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         List<Categoria> categorias = new LinkedList<Categoria>();
-        if (session.getAttribute("categorias") != null) {
-            categorias = (List<Categoria>) session.getAttribute("categorias");
-        }
 
+        categorias = listar(request, response);
         String idStr = request.getParameter("id");
         int id = -1;
         if ((idStr != null) && (!idStr.isEmpty())) {
@@ -188,16 +187,13 @@ public class CategoriaServlet extends HttpServlet {
         } else {
             a = categorias.get(pos);
             categorias.remove(a);
+            CategoriaDAO categoriaDAO = new CategoriaDAO();
+            categoriaDAO.excluir(a.getId());
             session.setAttribute("categorias", categorias);
             request.setAttribute("categoria", a);
         }
         return a;
     }
-
-
-
-
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

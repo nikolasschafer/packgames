@@ -74,5 +74,16 @@ public class CategoriaDAO {
         }
         return saida;
     }
+    
+        public void excluir(int id) {
+        String sql = "DELETE FROM categoria WHERE id = "+ id + ";";
+        System.out.println("sql insert:" + sql);
+        try {
+            Statement stm = con.createStatement();
+            stm.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

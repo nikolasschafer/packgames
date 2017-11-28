@@ -47,7 +47,7 @@ public class ClienteServlet extends HttpServlet {
             destino = "cliente_list.jsp";
         } else if (op.equalsIgnoreCase("INC")) {
             a = incluir(request, response);
-            destino = "prodito_list.jsp";
+            destino = "produto_list.jsp";
         } else if (op.equalsIgnoreCase("SEL")) {
             a = selecionar(request, response);
             destino = "cliente_form.jsp";
