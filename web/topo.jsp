@@ -29,7 +29,7 @@
                             <a class="dropdown-item" href="categoria_form.jsp">Categorias</a>
                             <div class="dropdown-divider"></div>
                         </c:if>
-                        <a class="dropdown-item" href="#">Favoritos</a>
+                        <a class="dropdown-item" href="ClienteServlet?op=list_f">Favoritos</a>
                         <a class="dropdown-item" href="#">Minha Conta</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="ClienteServlet?op=LOGOUT">Sair</a>

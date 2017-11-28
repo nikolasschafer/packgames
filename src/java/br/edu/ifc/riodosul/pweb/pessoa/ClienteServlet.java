@@ -244,19 +244,17 @@ public class ClienteServlet extends HttpServlet {
             throws ServletException, IOException {
 
         Favorito a = null;
-        String clienteStr = request.getParameter("usuario_id");
+        HttpSession session = request.getSession();
+        Cliente cliente = (Cliente) session.getAttribute("cliente");
         String produtoStr = request.getParameter("produto_id");
-        int cliente = -1, produto = -1;
-        if ((clienteStr != null) && (!clienteStr.isEmpty())) {
-            cliente = Integer.parseInt(clienteStr);
-        }
+        int produto = -1;
         if ((produtoStr != null) && (!produtoStr.isEmpty())) {
             produto = Integer.parseInt(produtoStr);
         }
 
         //cria objeto de Favorito
         a = new Favorito();
-        a.setUsuario_id(cliente);
+        a.setUsuario_id(cliente.getId());
         a.setProduto_id(produto);
 
         return a;
@@ -304,10 +302,9 @@ public class ClienteServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        List<Favorito> favoritos = new LinkedList<Favorito>();
-        if (session.getAttribute("favoritos") != null) {
-            favoritos = (List<Favorito>) session.getAttribute("favoritos");
-        }
+        ClienteDAO clienteDAO = new ClienteDAO();
+        Cliente cliente = (Cliente) session.getAttribute("cliente");
+        List<Favorito> favoritos = clienteDAO.listar_favoritos(cliente.getId());
 
         String produtoStr = request.getParameter("produto_id");
         int produto = -1;
@@ -316,7 +313,8 @@ public class ClienteServlet extends HttpServlet {
         }
         int pos = -1;
         for (int i = 0; i < favoritos.size(); i++) {
-            if (favoritos.get(i).getProduto_id() == produto) {
+            Favorito fav = favoritos.get(i);
+            if (fav.getProduto_id() == produto) {
                 pos = i;
             }
         }
@@ -329,6 +327,7 @@ public class ClienteServlet extends HttpServlet {
         } else {
             a = favoritos.get(pos);
             favoritos.remove(a);
+            clienteDAO.excluir_favorito(a);
             session.setAttribute("favoritos", favoritos);
             request.setAttribute("favorito", a);
         }
