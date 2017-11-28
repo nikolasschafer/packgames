@@ -161,7 +161,7 @@ public class ClienteDAO {
     
     public List<Favorito> listar_favoritos(int usuario_id) {
         List<Favorito> saida = new ArrayList<Favorito>();
-        String sql = "SELECT * FROM prefeir_produto WHERE usuario_id = "+ usuario_id + ";";
+        String sql = "SELECT * FROM preferir_produto WHERE usuario_id = "+ usuario_id + ";";
         try {
             ResultSet rs = con.createStatement().
                     executeQuery(sql);
