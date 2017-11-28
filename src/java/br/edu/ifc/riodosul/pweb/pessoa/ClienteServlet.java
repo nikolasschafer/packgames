@@ -107,7 +107,7 @@ public class ClienteServlet extends HttpServlet {
         ClienteDAO clienteDAO = new ClienteDAO();
         clienteDAO.incluir(a);
         session.setAttribute("cliente", a);
-        request.setAttribute("msg", "Cadastro efetuado com sucesso, acompanhe a lista de nossos produtos!");
+        request.setAttribute("msg_cadastro", "Cadastro efetuado com sucesso, acompanhe a lista de nossos produtos!");
         return a;
     }
 

@@ -26,6 +26,7 @@
                         <c:if test="${cliente.admin==1}">
                             <a class="dropdown-item" href="#">Clientes</a>
                             <a class="dropdown-item" href="#">Produtos</a>
+                            <a class="dropdown-item" href="categoria_form.jsp">Categorias</a>
                             <div class="dropdown-divider"></div>
                         </c:if>
                         <a class="dropdown-item" href="#">Favoritos</a>
@@ -39,7 +40,7 @@
     </nav>
 
     <div class="w-100 text-primary" style="margin-top: 80px; margin-bottom: 30px;">
-        <c:if test="${msg!=null}">
+        <c:if test="${msg_cadastro!=null}">
             <div class="alert alert-success alert-dismissible fade show mx-auto w-75" role="alert">
                 <strong>Bem-vindo!</strong> ${msg}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">

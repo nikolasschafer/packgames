@@ -14,6 +14,10 @@
         <servlet-name>ProdutoServlet</servlet-name>
         <servlet-class>br.edu.ifc.riodosul.pweb.pessoa.ProdutoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CategoriaServlet</servlet-name>
+        <servlet-class>br.edu.ifc.riodosul.pweb.pessoa.CategoriaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ClienteServlet</servlet-name>
         <url-pattern>/ClienteServlet</url-pattern>
@@ -25,6 +29,10 @@
     <servlet-mapping>
         <servlet-name>ProdutoServlet</servlet-name>
         <url-pattern>/ProdutoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CategoriaServlet</servlet-name>
+        <url-pattern>/CategoriaServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>5</session-timeout>
