@@ -25,7 +25,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <c:if test="${cliente.admin==1}">
                             <a class="dropdown-item" href="#">Clientes</a>
-                            <a class="dropdown-item" href="#">Produtos</a>
+                            <a class="dropdown-item" href="ProdutoServlet?op=list_table">Produtos</a>
                             <a class="dropdown-item" href="categoria_form.jsp">Categorias</a>
                             <div class="dropdown-divider"></div>
                         </c:if>

@@ -5,11 +5,13 @@
  */
 package br.edu.ifc.riodosul.pweb.pessoa;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Níkolas
  */
-public class Categoria {
+public class Categoria implements Serializable{
     private int id;
     private String nome;
 
