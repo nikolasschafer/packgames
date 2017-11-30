@@ -97,7 +97,7 @@ public class ProdutoServlet extends HttpServlet {
         String nome = request.getParameter("nome");
         String url = request.getParameter("url");
         String descricao = request.getParameter("descricao");
-        String categoria = request.getParameter("categoria");
+        String categoria_idStr = request.getParameter("categoria_id");
         String precoStr = request.getParameter("preco");
         String adminStr = request.getParameter("usuario_id");
         double preco = -1;
@@ -108,6 +108,10 @@ public class ProdutoServlet extends HttpServlet {
         if ((adminStr != null) && (!adminStr.isEmpty())) {
             admin = Integer.parseInt(adminStr);
         }
+        int categoria_id = -1;
+        if ((categoria_idStr != null) && (!categoria_idStr.isEmpty())) {
+            categoria_id = Integer.parseInt(categoria_idStr);
+        }
         //cria objeto de Administrador
         a = new Produto();
         a.setId(0);
@@ -116,7 +120,7 @@ public class ProdutoServlet extends HttpServlet {
         a.setUrl(url);
         a.setUsuario_id(admin);
         a.setDescricao(descricao);
-        a.setCategoria(categoria);
+        a.setCategoria_id(categoria_id);
 
         return a;
     }
@@ -126,8 +130,8 @@ public class ProdutoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         Produto a = dados_produto(request, response);
-        AdministradorDAO administradorDAO = new AdministradorDAO();
-        administradorDAO.publicar(a);
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        produtoDAO.publicar(a);
         request.setAttribute("produto", a);
         return a;
     }
@@ -168,13 +172,12 @@ public class ProdutoServlet extends HttpServlet {
         return a;
     }
 
-
     protected Favorito dados_favoritos(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        Cliente cliente = (Cliente) session.getAttribute("cliente");
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
         String produtoStr = request.getParameter("produto_id");
         int produto = -1;
         if ((produtoStr != null) && (!produtoStr.isEmpty())) {
@@ -183,23 +186,22 @@ public class ProdutoServlet extends HttpServlet {
 
         //cria objeto de Favorito
         Favorito a = new Favorito();
-        a.setUsuario_id(cliente.getId());
+        a.setUsuario_id(usuario.getId());
         a.setProduto_id(produto);
 
         return a;
     }
-    
-    
+
     /*
         Método responsável por incluir produto na lista de favoritos
-    */
+     */
     protected Favorito incluir_favorito(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
 
         Favorito a = dados_favoritos(request, response);
-        ClienteDAO clienteDAO = new ClienteDAO();
-        clienteDAO.preferir(a);
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        produtoDAO.preferir(a);
         request.setAttribute("favorito", a);
         return a;
     }
@@ -212,11 +214,10 @@ public class ProdutoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        ClienteDAO clienteDAO = new ClienteDAO();
-        Cliente cliente = (Cliente) session.getAttribute("cliente");
-        List<Favorito> favoritos = clienteDAO.listar_favoritos(cliente.getId());
-        List<Produto> produtos = new LinkedList<Produto>();
         ProdutoDAO produtoDAO = new ProdutoDAO();
+        Usuario cliente = (Usuario) session.getAttribute("cliente");
+        List<Favorito> favoritos = produtoDAO.listar_favoritos(cliente.getId());
+        List<Produto> produtos = new LinkedList<Produto>();
         List<Produto> aux_produtos = produtoDAO.listar();
 
         for (int i = 0; i <= favoritos.size() - 1; i++) {
@@ -247,9 +248,9 @@ public class ProdutoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        ClienteDAO clienteDAO = new ClienteDAO();
-        Cliente cliente = (Cliente) session.getAttribute("cliente");
-        List<Favorito> favoritos = clienteDAO.listar_favoritos(cliente.getId());
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        Usuario cliente = (Usuario) session.getAttribute("cliente");
+        List<Favorito> favoritos = produtoDAO.listar_favoritos(cliente.getId());
 
         String produtoStr = request.getParameter("produto_id");
         int produto = -1;
@@ -272,7 +273,7 @@ public class ProdutoServlet extends HttpServlet {
         } else {
             a = favoritos.get(pos);
             favoritos.remove(a);
-            clienteDAO.excluir_favorito(a);
+            produtoDAO.excluir_favorito(a);
             session.setAttribute("favoritos", favoritos);
             request.setAttribute("favorito", a);
         }

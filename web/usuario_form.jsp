@@ -12,9 +12,9 @@
     <body>
         <%@include file="topo.jsp" %>
         <div class="mx-auto w-50 p-3 mt-4" style="border: 1px solid #ccc; border-radius: 10px;">
-            <form method="POST" action="ClienteServlet">
-                <h3>Cadastrar cliente</h3>
-                <c:if test="${cliente==null}">
+            <form method="POST" action="UsuarioServlet">
+                <h3>Cadastrar Usuario</h3>
+                <c:if test="${usuario==null}">
                     <input type="hidden" name="op" value="inc"/>
                 </c:if>
                 <div class="form-group">
@@ -33,7 +33,7 @@
                     <label for="inputPassword1">Senha</label>
                     <input type="password" class="form-control" id="inputPassword1" placeholder="Senha" required name="email" >
                 </div>
-                <c:if test="${cliente.admin == 1}">
+                <c:if test="${usuario.admin == 1}">
                 <div class="form-check">
                     <label class="form-check-label">
                         <input type="checkbox" class="form-check-input">

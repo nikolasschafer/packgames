@@ -12,27 +12,29 @@
             <button class="btn btn-primary btn-sm my-2 my-sm-0" type="submit"><i class="material-icons">search</i></button>
         </form>
         <ul class="nav">
-            <c:if test="${cliente==null}">
+            <c:if test="${usuario==null}">
                 <li class="nav-item">
-                    <a href="ClienteServlet?op=LOGOUT"><button type="button" class="btn btn-light text-secondary">Entrar</button></a>
+                    <a href="UsuarioServlet?op=LOGOUT"><button type="button" class="btn btn-light text-secondary">Entrar</button></a>
                 </li>
             </c:if>
-            <c:if test="${cliente!=null}">
+            <c:if test="${usuario!=null}">
                 <li class="nav-item dropdown">
                     <button class="nav-link dropdown-toggle btn btn-light" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        ${cliente.nome}
+                        ${usuario.nome}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <c:if test="${cliente.admin==1}">
+                        <c:if test="${usuario.admin==1}">
                             <a class="dropdown-item" href="#">Clientes</a>
                             <a class="dropdown-item" href="ProdutoServlet?op=list_table">Produtos</a>
+                            <a class="dropdown-item" href="UsuarioServlet?op=list">Usuarios</a>
+                            <a class="dropdown-item" href="#">Produtos</a>
                             <a class="dropdown-item" href="categoria_form.jsp">Categorias</a>
                             <div class="dropdown-divider"></div>
                         </c:if>
-                        <a class="dropdown-item" href="ClienteServlet?op=list_f">Favoritos</a>
+                        <a class="dropdown-item" href="ProdutoServlet?op=list_f">Favoritos</a>
                         <a class="dropdown-item" href="#">Minha Conta</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="ClienteServlet?op=LOGOUT">Sair</a>
+                        <a class="dropdown-item" href="UsuarioServlet?op=LOGOUT">Sair</a>
                     </div>
                 </li>
             </c:if>

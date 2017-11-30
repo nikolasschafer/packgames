@@ -1,4 +1,3 @@
-
 package br.edu.ifc.riodosul.pweb.pessoa;
 
 import java.sql.Connection;
@@ -8,11 +7,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClienteDAO {
-    
+public class UsuarioDAO {
+
     private Connection con = null;
 
-    public ClienteDAO() {
+    public UsuarioDAO() {
         try {
             //org.hsqldb.jdbcDriver
             Class.forName("com.mysql.jdbc.Driver").
@@ -26,15 +25,16 @@ public class ClienteDAO {
             e.printStackTrace();
         }
     }
-    
-    public void incluir(Cliente cliente) {
+
+    public void incluir(Usuario usuario) {
         String sql = "INSERT INTO usuario "
-                + "(nome, login, senha, email) "
+                + "(nome, login, senha, email, admin) "
                 + "VALUES"
-                + "('" + cliente.getNome() + "',"
-                +"'" + cliente.getLogin() + "',"
-                +"'" + cliente.getEmail() + "',"
-                +"'" + cliente.getSenha() + "');";
+                + "('" + usuario.getNome() + "',"
+                + "'" + usuario.getLogin() + "',"
+                + "'" + usuario.getEmail() + "',"
+                + "'" + usuario.getSenha() + "',"
+                + "'" + usuario.getAdmin() + "');";
         System.out.println("sql insert:" + sql);
         try {
             Statement stm = con.createStatement();
@@ -43,14 +43,15 @@ public class ClienteDAO {
             e.printStackTrace();
         }
     }
-    
-    public void alterar(Cliente cliente) {
-        String sql = "UPDATE usuario SET"            
-                + "nome='" + cliente.getNome() 
-                + "',login='" + cliente.getLogin()
-                + "',senha='" + cliente.getSenha()
-                + "',email='"+ cliente.getEmail() + 
-                "' WHERE usuario.id = "+ cliente.getId() + ";";
+
+    public void alterar(Usuario usuario) {
+        String sql = "UPDATE usuario SET"
+                + "nome='" + usuario.getNome()
+                + "',login='" + usuario.getLogin()
+                + "',senha='" + usuario.getSenha()
+                + "',email='" + usuario.getEmail()
+                + "',admin='" + usuario.getAdmin()
+                + "' WHERE usuario.id = " + usuario.getId() + ";";
         System.out.println("sql update:" + sql);
         try {
             Statement stm = con.createStatement();
@@ -59,20 +60,21 @@ public class ClienteDAO {
             e.printStackTrace();
         }
     }
-    
-    public List<Cliente> listar() {
-        List<Cliente> saida = new ArrayList<Cliente>();
-        String sql = "SELECT * FROM usuario WHERE admin = 0;";
+
+    public List<Usuario> listar() {
+        List<Usuario> saida = new ArrayList<Usuario>();
+        String sql = "SELECT * FROM usuario;";
         try {
             ResultSet rs = con.createStatement().
                     executeQuery(sql);
             while (rs.next()) {
-                Cliente a = new Cliente();
+                Usuario a = new Usuario();
                 a.setId(rs.getInt("id"));
                 a.setNome(rs.getString("nome"));
                 a.setLogin(rs.getString("login"));
                 a.setSenha(rs.getString("senha"));
                 a.setEmail(rs.getString("email"));
+                a.setAdmin(rs.getInt("admin"));
                 saida.add(a);
             }
         } catch (Exception e) {
@@ -80,35 +82,15 @@ public class ClienteDAO {
         }
         return saida;
     }
-    
-    public Cliente obter(int id) {
-        Cliente saida = null;
-        String sql = "SELECT * FROM usuario WHERE id = "+ id + " && admin = 0;";
+
+    public Usuario obter(int id) {
+        Usuario saida = null;
+        String sql = "SELECT * FROM usuario WHERE id = " + id + " ;";
         try {
             ResultSet rs = con.createStatement().
                     executeQuery(sql);
             if (rs.next()) {
-                saida = new Cliente();
-                saida.setId(rs.getInt("id"));
-                saida.setNome(rs.getString("nome"));
-                saida.setLogin(rs.getString("login"));
-                saida.setSenha(rs.getString("senha"));
-                saida.setEmail(rs.getString("email"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return saida;
-    }
-    
-        public Cliente login(String login, String senha) {
-        Cliente saida = null;
-        String sql = "SELECT * FROM usuario WHERE login = '"+ login + "' && senha = '"+ senha +"';";
-        try {
-            ResultSet rs = con.createStatement().
-                    executeQuery(sql);
-            if (rs.next()) {
-                saida = new Cliente();
+                saida = new Usuario();
                 saida.setId(rs.getInt("id"));
                 saida.setNome(rs.getString("nome"));
                 saida.setLogin(rs.getString("login"));
@@ -121,60 +103,37 @@ public class ClienteDAO {
         }
         return saida;
     }
-    
-    public void excluir(int id) {
-        String sql = "DELETE FROM usuario WHERE id = "+ id + ";";
-        System.out.println("sql insert:" + sql);
-        try {
-            Statement stm = con.createStatement();
-            stm.execute(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void preferir(Favorito favorito) {
-        String sql = "INSERT INTO preferir_produto "
-                + "(usuario_id, produto_id) "
-                + "VALUES"
-                + "(" + favorito.getUsuario_id() + ","
-                + favorito.getProduto_id()+ ");";
-        System.out.println("sql insert:" + sql);
-        try {
-            Statement stm = con.createStatement();
-            stm.execute(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void excluir_favorito(Favorito favorito) {
-        String sql = "DELETE FROM preferir_produto WHERE usuario_id = "+ favorito.getUsuario_id() + " && produto_id = "+ favorito.getProduto_id() +";";
-        System.out.println("sql insert:" + sql);
-        try {
-            Statement stm = con.createStatement();
-            stm.execute(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public List<Favorito> listar_favoritos(int usuario_id) {
-        List<Favorito> saida = new ArrayList<Favorito>();
-        String sql = "SELECT * FROM preferir_produto WHERE usuario_id = "+ usuario_id + ";";
+
+    public Usuario login(String login, String senha) {
+        Usuario saida = null;
+        String sql = "SELECT * FROM usuario WHERE login = '" + login + "' && senha = '" + senha + "';";
         try {
             ResultSet rs = con.createStatement().
                     executeQuery(sql);
-            while (rs.next()) {
-                Favorito a = new Favorito();
-                a.setUsuario_id(rs.getInt("usuario_id"));
-                a.setProduto_id(rs.getInt("produto_id"));
-                saida.add(a);
+            if (rs.next()) {
+                saida = new Usuario();
+                saida.setId(rs.getInt("id"));
+                saida.setNome(rs.getString("nome"));
+                saida.setLogin(rs.getString("login"));
+                saida.setSenha(rs.getString("senha"));
+                saida.setEmail(rs.getString("email"));
+                saida.setAdmin(rs.getInt("admin"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return saida;
     }
-    
+
+    public void excluir(int id) {
+        String sql = "DELETE FROM usuario WHERE id = " + id + ";";
+        System.out.println("sql insert:" + sql);
+        try {
+            Statement stm = con.createStatement();
+            stm.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
