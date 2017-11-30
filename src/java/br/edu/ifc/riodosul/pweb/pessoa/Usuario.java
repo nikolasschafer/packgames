@@ -1,7 +1,9 @@
 
 package br.edu.ifc.riodosul.pweb.pessoa;
 
-public abstract class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable, Comparable<Usuario>{
     
     private int id;
     private String nome;
@@ -57,5 +59,17 @@ public abstract class Usuario {
     public void setAdmin(int admin) {
         this.admin = admin;
     }
-            
+
+    @Override
+    public int compareTo(Usuario o) {
+        int saida = -2;
+        if (this.getId() < o.getId()) {
+            saida = -1;
+        } else if (this.getId() == o.getId()) {
+            saida = 0;
+        } else {
+            saida = 1;
+        }
+        return saida;
+    }          
 }

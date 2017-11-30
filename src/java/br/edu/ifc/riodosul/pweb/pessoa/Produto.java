@@ -11,7 +11,7 @@ public class Produto implements Serializable, Comparable<Produto> {
     private String url;
     private String descricao;
     private int usuario_id;
-    private String categoria;
+    private int categoria_id;
 
     public int getId() {
         return id;
@@ -61,12 +61,12 @@ public class Produto implements Serializable, Comparable<Produto> {
         this.usuario_id = usuario_id;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public int getCategoria_id() {
+        return categoria_id;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setCategoria_id(int categoria_id) {
+        this.categoria_id = categoria_id;
     }
     
     @Override

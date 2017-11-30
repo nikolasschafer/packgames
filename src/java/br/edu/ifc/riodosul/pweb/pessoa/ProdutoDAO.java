@@ -40,7 +40,7 @@ public class ProdutoDAO {
                 a.setUrl(rs.getString("url"));
                 a.setUsuario_id(rs.getInt("usuario_id"));
                 a.setDescricao(rs.getString("descricao"));
-                a.setCategoria(rs.getString("categoria"));
+                a.setCategoria_id(rs.getInt("categoria_id"));
                 saida.add(a);
             }
         } catch (Exception e) {
@@ -63,7 +63,7 @@ public class ProdutoDAO {
                 saida.setUrl(rs.getString("url"));
                 saida.setDescricao(rs.getString("descricao"));
                 saida.setUsuario_id(rs.getInt("usuario_id"));
-                saida.setCategoria(rs.getString("categoria"));
+                saida.setCategoria_id(rs.getInt("categoria_id"));
             }
         } catch (Exception e) {
             e.printStackTrace();
