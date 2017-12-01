@@ -118,13 +118,13 @@ public class ProdutoDAO {
             e.printStackTrace();
         }
     }
-    
-        public void preferir(Favorito favorito) {
+
+    public void preferir(Favorito favorito) {
         String sql = "INSERT INTO preferir_produto "
                 + "(usuario_id, produto_id) "
                 + "VALUES"
                 + "(" + favorito.getUsuario_id() + ","
-                + favorito.getProduto_id()+ ");";
+                + favorito.getProduto_id() + ");";
         System.out.println("sql insert:" + sql);
         try {
             Statement stm = con.createStatement();
@@ -133,9 +133,9 @@ public class ProdutoDAO {
             e.printStackTrace();
         }
     }
-    
+
     public void excluir_favorito(Favorito favorito) {
-        String sql = "DELETE FROM preferir_produto WHERE usuario_id = "+ favorito.getUsuario_id() + " && produto_id = "+ favorito.getProduto_id() +";";
+        String sql = "DELETE FROM preferir_produto WHERE usuario_id = " + favorito.getUsuario_id() + " && produto_id = " + favorito.getProduto_id() + ";";
         System.out.println("sql insert:" + sql);
         try {
             Statement stm = con.createStatement();
@@ -144,10 +144,10 @@ public class ProdutoDAO {
             e.printStackTrace();
         }
     }
-    
+
     public List<Favorito> listar_favoritos(int usuario_id) {
         List<Favorito> saida = new ArrayList<Favorito>();
-        String sql = "SELECT * FROM preferir_produto WHERE usuario_id = "+ usuario_id + ";";
+        String sql = "SELECT * FROM preferir_produto WHERE usuario_id = " + usuario_id + ";";
         try {
             ResultSet rs = con.createStatement().
                     executeQuery(sql);
@@ -155,6 +155,38 @@ public class ProdutoDAO {
                 Favorito a = new Favorito();
                 a.setUsuario_id(rs.getInt("usuario_id"));
                 a.setProduto_id(rs.getInt("produto_id"));
+                saida.add(a);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return saida;
+    }
+
+    public List<Produto> produtos_favoritos(List<Favorito> favoritos) {
+        List<Produto> saida = new ArrayList<Produto>();
+        String sql = "select * from produto where id = ";
+        for (int i = 0; i < favoritos.size(); i++) {
+            Favorito fav = new Favorito();
+            fav = favoritos.get(i);
+            if (i == favoritos.size()-1) {
+                sql = sql + fav.getProduto_id() + " ;";
+            } else {
+                sql = sql + fav.getProduto_id() + " || id = ";
+            }
+        }
+        try {
+            ResultSet rs = con.createStatement().
+                    executeQuery(sql);
+            while (rs.next()) {
+                Produto a = new Produto();
+                a.setId(rs.getInt("id"));
+                a.setNome(rs.getString("nome"));
+                a.setPreco(rs.getDouble("preco"));
+                a.setUrl(rs.getString("url"));
+                a.setUsuario_id(rs.getInt("usuario_id"));
+                a.setDescricao(rs.getString("descricao"));
+                a.setCategoria_id(rs.getInt("categoria_id"));
                 saida.add(a);
             }
         } catch (Exception e) {

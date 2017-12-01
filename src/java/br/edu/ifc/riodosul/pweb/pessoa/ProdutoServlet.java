@@ -50,6 +50,9 @@ public class ProdutoServlet extends HttpServlet {
         } else if (op.equalsIgnoreCase("SEL")) {
             a = selecionar(request, response);
             destino = "aluno_form.jsp";
+        } else if (op.equalsIgnoreCase("list_f")) {
+            listar_favorito(request, response);
+            destino = "produto_list.jsp";
         }
         //
         RequestDispatcher dispatcher = request
@@ -215,22 +218,10 @@ public class ProdutoServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         ProdutoDAO produtoDAO = new ProdutoDAO();
-        Usuario cliente = (Usuario) session.getAttribute("cliente");
+        Usuario cliente = (Usuario) session.getAttribute("usuario");
         List<Favorito> favoritos = produtoDAO.listar_favoritos(cliente.getId());
-        List<Produto> produtos = new LinkedList<Produto>();
-        List<Produto> aux_produtos = produtoDAO.listar();
+        List<Produto> produtos = produtoDAO.produtos_favoritos(favoritos);
 
-        for (int i = 0; i <= favoritos.size() - 1; i++) {
-            Favorito fav = new Favorito();
-            fav = favoritos.get(i);
-            for (int j = 0; j <= aux_produtos.size() - 1; j++) {
-                Produto produto = new Produto();
-                produto = aux_produtos.get(j);
-                if (produto.getId() == fav.getProduto_id()) {
-                    produtos.add(produto);
-                }
-            }
-        }
         request.setAttribute("produtos", produtos);
     }
 
