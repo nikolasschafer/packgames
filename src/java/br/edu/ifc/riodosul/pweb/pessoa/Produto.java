@@ -12,6 +12,8 @@ public class Produto implements Serializable, Comparable<Produto> {
     private String descricao;
     private int usuario_id;
     private int categoria_id;
+    
+    private Categoria categoria;
 
     public int getId() {
         return id;
@@ -67,6 +69,14 @@ public class Produto implements Serializable, Comparable<Produto> {
 
     public void setCategoria_id(int categoria_id) {
         this.categoria_id = categoria_id;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
     
     @Override

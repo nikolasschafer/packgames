@@ -32,6 +32,7 @@ public class ProdutoDAO {
         try {
             ResultSet rs = con.createStatement().
                     executeQuery(sql);
+            CategoriaDAO categoriaDAO = new CategoriaDAO();
             while (rs.next()) {
                 Produto a = new Produto();
                 a.setId(rs.getInt("id"));
@@ -41,6 +42,11 @@ public class ProdutoDAO {
                 a.setUsuario_id(rs.getInt("usuario_id"));
                 a.setDescricao(rs.getString("descricao"));
                 a.setCategoria_id(rs.getInt("categoria_id"));
+                                //referencia             
+                a.setCategoria(
+                        categoriaDAO.obter(
+                                a.getCategoria_id()));
+                //
                 saida.add(a);
             }
         } catch (Exception e) {

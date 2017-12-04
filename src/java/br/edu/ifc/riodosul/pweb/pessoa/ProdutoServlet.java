@@ -5,15 +5,26 @@
  */
 package br.edu.ifc.riodosul.pweb.pessoa;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  *
@@ -50,6 +61,13 @@ public class ProdutoServlet extends HttpServlet {
         } else if (op.equalsIgnoreCase("SEL")) {
             a = selecionar(request, response);
             destino = "aluno_form.jsp";
+        } else if (op.equalsIgnoreCase("NOVO")) {
+            prepararForm(request, response);
+            destino = "produto_form.jsp";
+        } else if (op.equalsIgnoreCase("inc")) {
+            a = incluir_produto(request, response);
+            upload_img(request, response);
+            destino = "ProdutoServlet?op=list_table";
         }
         //
         RequestDispatcher dispatcher = request
@@ -63,6 +81,15 @@ public class ProdutoServlet extends HttpServlet {
         ProdutoDAO produtoDAO = new ProdutoDAO();
         List<Produto> produtos = produtoDAO.listar();
         request.setAttribute("produtos", produtos);
+    }
+
+    protected void prepararForm(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        List<Categoria> categorias = null;
+        CategoriaDAO categoriaDAO = new CategoriaDAO();
+        categorias = categoriaDAO.listar();
+        request.setAttribute("categorias", categorias);
     }
 
     protected Produto selecionar(HttpServletRequest request,
@@ -93,21 +120,21 @@ public class ProdutoServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
         Produto a = null;
         String nome = request.getParameter("nome");
         String url = request.getParameter("url");
         String descricao = request.getParameter("descricao");
         String categoria_idStr = request.getParameter("categoria_id");
         String precoStr = request.getParameter("preco");
-        String adminStr = request.getParameter("usuario_id");
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
         double preco = -1;
         if ((precoStr != null) && (!precoStr.isEmpty())) {
             preco = Double.parseDouble(precoStr);
         }
-        int admin = -1;
-        if ((adminStr != null) && (!adminStr.isEmpty())) {
-            admin = Integer.parseInt(adminStr);
-        }
+
+        int admin = usuario.getId();
+
         int categoria_id = -1;
         if ((categoria_idStr != null) && (!categoria_idStr.isEmpty())) {
             categoria_id = Integer.parseInt(categoria_idStr);
@@ -123,6 +150,35 @@ public class ProdutoServlet extends HttpServlet {
         a.setCategoria_id(categoria_id);
 
         return a;
+    }
+
+    protected void upload_img(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            //verifica se o enctype esta correto
+            boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+            //
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            ServletContext servletContext = this.getServletConfig().getServletContext();
+            File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+            factory.setRepository(repository);
+            ServletFileUpload upload = new ServletFileUpload(factory);
+            List<FileItem> items = upload.parseRequest(request);
+
+            for (FileItem i : items) {
+                File f = new File("c:/temp/ex_fileupload/" + i.getName());
+                FileOutputStream fos = new FileOutputStream(f);
+                InputStream is = i.getInputStream();
+                byte dados[] = new byte[512];
+                while (is.read(dados) >= 0) {
+                    fos.write(dados);
+                }
+                fos.flush();
+                fos.close();
+            }
+        } catch (FileUploadException ex) {
+            Logger.getLogger(ProdutoServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     protected Produto incluir_produto(HttpServletRequest request,

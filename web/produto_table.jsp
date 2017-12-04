@@ -16,10 +16,10 @@
             <div style="width: 300px; ">        
                 <ul class="nav flex-column menu-vertical">
                     <li class="nav-item">
-                        <a class="nav-link" href="produto_form.jsp"><i class="material-icons">add</i> Inserir</a>
+                        <a class="nav-link" href="ProdutoServlet?op=novo"><i class="material-icons">add</i> Inserir</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="ProdutoServlet?op=list"><i class="material-icons">list</i> Listar</a>
+                        <a class="nav-link" href="ProdutoServlet?op=list_table"><i class="material-icons">list</i> Listar</a>
                     </li>
                 </ul>
             </div>
@@ -41,6 +41,7 @@
                             <th scope="col">Nome</th>
                             <th scope="col">Preço</th>
                             <th scope="col">Descrição</th>
+                            <th scope="col">Categoria</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -51,6 +52,7 @@
                                 <td>${o.nome}</td>
                                 <td>${o.preco}</td>
                                 <td>${o.descricao}</td>
+                                <td>${o.categoria.nome}</td>
                                 <td> 
                                     <a href="AlunoServlet?op=sel&id=${o.id}" style="padding-right: 20px"><i class="material-icons">mode_edit</i></a>
                                     <a href="CategoriaServlet?op=del&id=${o.id}"><i class="material-icons">delete</i></a>
