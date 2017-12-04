@@ -86,4 +86,16 @@ public class CategoriaDAO {
         }
     }
 
+        public void alterar(Categoria categoria) {
+        String sql = "UPDATE categoria SET"
+                + "nome='" + categoria.getNome()
+                + "' WHERE id = " + categoria.getId() + ";";
+        System.out.println("sql update:" + sql);
+        try {
+            Statement stm = con.createStatement();
+            stm.execute(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

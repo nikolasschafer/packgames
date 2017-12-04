@@ -116,6 +116,7 @@ public class UsuarioServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         List<Usuario> usuarios = new LinkedList<Usuario>();
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
         if (session.getAttribute("usuarios") != null) {
             usuarios = (List<Usuario>) session.getAttribute("usuarios");
         }
@@ -140,6 +141,7 @@ public class UsuarioServlet extends HttpServlet {
             usuarios.set(pos, a);
             session.setAttribute("usuarios", usuarios);
             request.setAttribute("usuario", a);
+            usuarioDAO.alterar(a);
         }
 
         return a;

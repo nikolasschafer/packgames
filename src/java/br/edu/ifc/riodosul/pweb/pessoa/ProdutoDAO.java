@@ -195,4 +195,49 @@ public class ProdutoDAO {
         return saida;
     }
 
+    public List<Produto> listar_por_categoria(int categoria) {
+        List<Produto> saida = new ArrayList<Produto>();
+        String sql = "SELECT * FROM produto WHERE categoria_id ="+categoria+";";
+        try {
+            ResultSet rs = con.createStatement().
+                    executeQuery(sql);
+            while (rs.next()) {
+                Produto a = new Produto();
+                a.setId(rs.getInt("id"));
+                a.setNome(rs.getString("nome"));
+                a.setPreco(rs.getDouble("preco"));
+                a.setUrl(rs.getString("url"));
+                a.setUsuario_id(rs.getInt("usuario_id"));
+                a.setDescricao(rs.getString("descricao"));
+                a.setCategoria_id(rs.getInt("categoria_id"));
+                saida.add(a);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return saida;
+    }
+    
+    public List<Produto> listar_por_busca(String busca) {
+        List<Produto> saida = new ArrayList<Produto>();
+        String sql = "SELECT * FROM produto WHERE produto.nome LIKE '%"+busca+"%';";
+        try {
+            ResultSet rs = con.createStatement().
+                    executeQuery(sql);
+            while (rs.next()) {
+                Produto a = new Produto();
+                a.setId(rs.getInt("id"));
+                a.setNome(rs.getString("nome"));
+                a.setPreco(rs.getDouble("preco"));
+                a.setUrl(rs.getString("url"));
+                a.setUsuario_id(rs.getInt("usuario_id"));
+                a.setDescricao(rs.getString("descricao"));
+                a.setCategoria_id(rs.getInt("categoria_id"));
+                saida.add(a);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return saida;
+    }
 }

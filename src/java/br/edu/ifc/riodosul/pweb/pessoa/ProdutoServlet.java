@@ -53,6 +53,18 @@ public class ProdutoServlet extends HttpServlet {
         } else if (op.equalsIgnoreCase("list_f")) {
             listar_favorito(request, response);
             destino = "produto_list.jsp";
+        } else if (op.equalsIgnoreCase("inc_f")) {
+            incluir_favorito(request, response);
+            destino = "produto_list.jsp";
+        } else if (op.equalsIgnoreCase("alt")) {
+            alterar_produto(request, response);
+            destino = "produto_form.jsp";
+        } else if (op.equalsIgnoreCase("list_c")) {
+            listar_por_categoria(request, response);
+            destino = "produto_list.jsp";
+        } else if (op.equalsIgnoreCase("list_b")) {
+            listar_por_busca(request, response);
+            destino = "produto_list.jsp";
         }
         //
         RequestDispatcher dispatcher = request
@@ -270,7 +282,67 @@ public class ProdutoServlet extends HttpServlet {
         }
         return a;
     }
+    
+    protected Produto alterar_produto(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
+        List<Produto> produtos = new LinkedList<Produto>();
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        if (session.getAttribute("produtos") != null) {
+            produtos = (List<Produto>) session.getAttribute("produtos");
+        }
+        Produto a = dados_produto(request, response);
+        String idStr = request.getParameter("id");
+        int id = -1;
+        if ((idStr != null) && (!idStr.isEmpty())) {
+            id = Integer.parseInt(idStr);
+        }
+        a.setId(id);
+        int pos = -1;
+        for (int i = 0; i < produtos.size(); i++) {
+            if (produtos.get(i).getId() == id) {
+                pos = i;
+            }
+        }
+        //
+        if (pos == -1) {
+            request.setAttribute("msg",
+                    "Não existe o id!");
+        } else {
+            produtos.set(pos, a);
+            session.setAttribute("produtos", produtos);
+            request.setAttribute("produto", a);
+            produtoDAO.alterar(a);
+        }
+
+        return a;
+    }
+
+    protected void listar_por_categoria(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        String categoriaStr = request.getParameter("categoria");
+        int categoria = -1;
+        if ((categoriaStr != null) && (!categoriaStr.isEmpty())) {
+            categoria = Integer.parseInt(categoriaStr);
+        }
+        List<Produto> produtos = produtoDAO.listar_por_categoria(categoria);
+        request.setAttribute("produtos", produtos);
+    }
+    
+    protected void listar_por_busca(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        String busca = request.getParameter("search");
+        
+        List<Produto> produtos = produtoDAO.listar_por_busca(busca);
+        request.setAttribute("produtos", produtos);
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
