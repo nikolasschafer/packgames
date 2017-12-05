@@ -47,6 +47,7 @@ public class ProdutoServlet extends HttpServlet {
         Produto a = null;
         String op = "list";
         String destino = "produto_list.jsp";
+        request.setCharacterEncoding("UTF-8");
         if ((request.getParameter("op") != null)
                 && (!request.getParameter("op").isEmpty())) {
             op = request.getParameter("op");
@@ -64,10 +65,14 @@ public class ProdutoServlet extends HttpServlet {
         } else if (op.equalsIgnoreCase("NOVO")) {
             prepararForm(request, response);
             destino = "produto_form.jsp";
-        } else if (op.equalsIgnoreCase("inc")) {
+        } else if (op.equalsIgnoreCase("INC")) {
             a = incluir_produto(request, response);
+            destino = "produto_table.jsp";
+        } else if (op.equalsIgnoreCase("IMG")) {
+            prepararForm(request, response);
             upload_img(request, response);
-            destino = "ProdutoServlet?op=list_table";
+
+            
         }
         //
         RequestDispatcher dispatcher = request
@@ -166,18 +171,52 @@ public class ProdutoServlet extends HttpServlet {
             List<FileItem> items = upload.parseRequest(request);
 
             for (FileItem i : items) {
-                File f = new File("c:/temp/ex_fileupload/" + i.getName());
-                FileOutputStream fos = new FileOutputStream(f);
-                InputStream is = i.getInputStream();
-                byte dados[] = new byte[512];
-                while (is.read(dados) >= 0) {
-                    fos.write(dados);
+                if (!i.isFormField()) {
+                    String caminho = "c:/Users/Níkolas/Documents/NetBeans Projects/packgames/web/img_produto/" + i.getName();
+                    File f = new File(caminho);
+                    FileOutputStream fos = new FileOutputStream(f);
+                    InputStream is = i.getInputStream();
+                    byte dados[] = new byte[512];
+                    while (is.read(dados) >= 0) {
+                        fos.write(dados);
+                    }
+                    fos.flush();
+                    fos.close();
+                    request.setAttribute("url", caminho);
+                    request.setAttribute("img_name", i.getName());
+                    String destino = "produto_form.jsp?op=novo";
+                    RequestDispatcher dispatcher = request
+                            .getRequestDispatcher(destino);
+                    dispatcher.forward(request, response);
                 }
-                fos.flush();
-                fos.close();
             }
         } catch (FileUploadException ex) {
             Logger.getLogger(ProdutoServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    protected void faz_porra_do_upload(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+
+        /*Identifica se o formulario é do tipo multipart/form-data*/
+        if (ServletFileUpload.isMultipartContent(request)) {
+            try {
+                /*Faz o parse do request*/
+                List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+
+                /*Escreve a o arquivo na pasta img*/
+                for (FileItem item : multiparts) {
+                    if (!item.isFormField()) {
+                        item.write(new File("c:/Users/Níkolas/Documents/NetBeans Projects/packgames/web/img_produto/" + item.getName()));
+                    }
+                }
+                request.setAttribute("message", "Arquivo carregado com sucesso");
+            } catch (Exception ex) {
+                request.setAttribute("message", "Upload de arquivo falhou devido a " + ex);
+            }
+
+        } else {
+            request.setAttribute("message", "Desculpe este Servlet lida apenas com pedido de upload de arquivos");
         }
     }
 

@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <head>
-    <meta http-equiv="Content-Type" 
-          content="text/html; charset=UTF-8">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <title>PackGames</title>
     <link rel="stylesheet" 
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" 
