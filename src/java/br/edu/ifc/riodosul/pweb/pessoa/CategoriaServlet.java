@@ -53,7 +53,7 @@ public class CategoriaServlet extends HttpServlet {
             destino = "categoria_form.jsp";
         } else if (op.equalsIgnoreCase("ALT")) {
             a = alterar(request, response);
-            destino = "categoria_list.jsp";
+            destino = "categoria_form.jsp";
         } else if (op.equalsIgnoreCase("DEL")) {
             a = remover(request, response);
             destino = "categoria_list.jsp?op=list";
@@ -95,8 +95,10 @@ public class CategoriaServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
         CategoriaDAO categoriaDAO = new CategoriaDAO();
+        HttpSession session = request.getSession();
         List<Categoria> categorias = categoriaDAO.listar();
         request.setAttribute("categorias", categorias);
+        session.setAttribute("categorias", categorias);
         return categorias;
     }
 
@@ -106,6 +108,7 @@ public class CategoriaServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         List<Categoria> categorias = new LinkedList<Categoria>();
+        CategoriaDAO categoriaDAO = new CategoriaDAO();
         if (session.getAttribute("categorias") != null) {
             categorias = (List<Categoria>) session.getAttribute("categorias");
         }
@@ -130,6 +133,7 @@ public class CategoriaServlet extends HttpServlet {
             categorias.set(pos, a);
             session.setAttribute("categorias", categorias);
             request.setAttribute("categoria", a);
+            categoriaDAO.alterar(a);
         }
 
         return a;

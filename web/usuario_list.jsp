@@ -16,10 +16,10 @@
             <div style="width: 300px; ">        
                 <ul class="nav flex-column menu-vertical">
                     <li class="nav-item">
-                        <a class="nav-link" href="categoria_form.jsp"><i class="material-icons">add</i> Inserir</a>
+                        <a class="nav-link" href="usuario_form.jsp"><i class="material-icons">add</i> Inserir</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="CategoriaServlet?op=list"><i class="material-icons">list</i> Listar</a>
+                        <a class="nav-link" href="UsuarioServlet?op=list"><i class="material-icons">list</i> Listar</a>
                     </li>
                 </ul>
             </div>
@@ -54,7 +54,7 @@
                                 <td>${o.email}</td>
                                 <td>${o.admin}</td>
                                 <td> 
-                                    <a href="UsuarioServlet?op=sel&id=${o.id}" style="padding-right: 20px"><i class="material-icons">mode_edit</i></a>
+                                    <a href="UsuarioServlet?op=alt&id=${o.id}" style="padding-right: 20px"><i class="material-icons">mode_edit</i></a>
                                     <a href="UsuarioServlet?op=del&id=${o.id}"><i class="material-icons">delete</i></a>
                                 </td>
                             </tr>

@@ -7,9 +7,9 @@
             <img src="img/game_white.png" width="30" height="30" class="d-inline-block align-top" alt="">
             <b>Pack Games</b>
         </a>
-        <form class="form-inline mx-auto w-50">
-            <input class="form-control mr-sm-2" type="search" style="width: 85%" placeholder="Pesquisar" aria-label="Search">
-            <button class="btn btn-primary btn-sm my-2 my-sm-0" type="submit"><i class="material-icons">search</i></button>
+        <form class="form-inline mx-auto w-50" action="ProdutoServlet?op=list_b">
+            <input class="form-control mr-sm-2" type="search" style="width: 85%" placeholder="Pesquisar" aria-label="Search" >
+            <button class="btn btn-primary btn-sm my-2 my-sm-0" type="submit"><i class="material-icons" >search</i></button>
         </form>
         <ul class="nav">
             <c:if test="${usuario==null}">
@@ -24,15 +24,13 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <c:if test="${usuario.admin==1}">
-                            <a class="dropdown-item" href="#">Clientes</a>
                             <a class="dropdown-item" href="ProdutoServlet?op=list_table">Produtos</a>
                             <a class="dropdown-item" href="UsuarioServlet?op=list">Usuarios</a>
-                            <a class="dropdown-item" href="#">Produtos</a>
                             <a class="dropdown-item" href="categoria_form.jsp">Categorias</a>
                             <div class="dropdown-divider"></div>
                         </c:if>
                         <a class="dropdown-item" href="ProdutoServlet?op=list_f">Favoritos</a>
-                        <a class="dropdown-item" href="#">Minha Conta</a>
+                        <a class="dropdown-item" href="usuario_view.jsp">Minha Conta</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="UsuarioServlet?op=LOGOUT">Sair</a>
                     </div>

@@ -48,7 +48,7 @@ public class UsuarioServlet extends HttpServlet {
             destino = "usuario_form.jsp";
         } else if (op.equalsIgnoreCase("ALT")) {
             a = alterar(request, response);
-            destino = "usuario_list.jsp";
+            destino = "usuario_form.jsp";
         } else if (op.equalsIgnoreCase("DEL")) {
             a = remover(request, response);
             destino = "usuario_list.jsp";
@@ -106,8 +106,10 @@ public class UsuarioServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
+        HttpSession session = request.getSession();
         List<Usuario> usuarios = usuarioDAO.listar();
         request.setAttribute("usuarios", usuarios);
+        session.setAttribute("usuarios", usuarios);
     }
 
     protected Usuario alterar(HttpServletRequest request,
@@ -116,6 +118,7 @@ public class UsuarioServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         List<Usuario> usuarios = new LinkedList<Usuario>();
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
         if (session.getAttribute("usuarios") != null) {
             usuarios = (List<Usuario>) session.getAttribute("usuarios");
         }
@@ -140,6 +143,7 @@ public class UsuarioServlet extends HttpServlet {
             usuarios.set(pos, a);
             session.setAttribute("usuarios", usuarios);
             request.setAttribute("usuario", a);
+            usuarioDAO.alterar(a);
         }
 
         return a;
@@ -200,6 +204,7 @@ public class UsuarioServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         List<Usuario> usuarios = new LinkedList<Usuario>();
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
         if (session.getAttribute("usuarios") != null) {
             usuarios = (List<Usuario>) session.getAttribute("usuarios");
         }
@@ -226,6 +231,7 @@ public class UsuarioServlet extends HttpServlet {
             usuarios.remove(a);
             session.setAttribute("usuarios", usuarios);
             request.setAttribute("usuario", a);
+            usuarioDAO.excluir(a.getId());
         }
         return a;
     }

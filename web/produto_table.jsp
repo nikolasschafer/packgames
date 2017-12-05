@@ -54,7 +54,7 @@
                                 <td>${o.descricao}</td>
                                 <td>${o.categoria.nome}</td>
                                 <td> 
-                                    <a href="AlunoServlet?op=sel&id=${o.id}" style="padding-right: 20px"><i class="material-icons">mode_edit</i></a>
+                                    <a href="ProdutoServlet?op=alt&id=${o.id}" style="padding-right: 20px"><i class="material-icons">mode_edit</i></a>
                                     <a href="ProdutoServlet?op=del&id=${o.id}"><i class="material-icons">delete</i></a>
                                 </td>
                             </tr>

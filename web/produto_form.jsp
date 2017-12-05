@@ -29,6 +29,7 @@
                     </div>
                 </c:if>
                 <div class="mx-auto w-100 p-3 " style="border: 1px solid #ccc; border-radius: 10px;">
+<<<<<<< HEAD
                     <h3>Cadastrar Produto</h3>
                     <form method="post" action="ProdutoServlet?op=img" enctype="multipart/form-data">
                         <c:if test="${img_name!=null}">
@@ -108,4 +109,29 @@
         </div>
     </div>
 </body>
+=======
+                    <form method="POST" action="ProdutoServlet">
+                        <h3>Cadastrar produto</h3>
+                        <input type="hidden" name="op" value="inc"/>
+                        <input type="hidden" name="usuario_id" value=${usuario.id}/>
+                        <div class="form-group">
+                            <label for="nome">Nome</label>
+                            <input type="text" class="form-control" id="nome" aria-describedby="nomeHelp" placeholder="Nome" required name="nome" >
+                            <label for="preco">Preço</label>
+                            <input type="number" class="form-control" id="preco" aria-describedby="precoHelp" placeholder="Preço" required name="preco" >
+                            <label for="descricao">Descrição</label>
+                            <input type="text" class="form-control" id="descricao" aria-describedby="descricaoHelp" placeholder="Descrição" required name="descricao" >
+                            <label for="categoria">Categoria</label>
+                            <input type="number" class="form-control" id="categoria" aria-describedby="categoriaHelp" placeholder="Categoria" required name="categoria" >
+                            <label for="url">Url</label>
+                            <input type="text" class="form-control" id="url" aria-describedby="urlHelp" placeholder="Url" required name="url" >
+                        </div>
+                        <button type="submit" class="btn btn-success">Cadastrar</button>
+                        <button type="reset" class="btn btn-danger">Limpar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+>>>>>>> master
 </html>
