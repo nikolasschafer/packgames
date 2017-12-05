@@ -117,7 +117,7 @@ public class ProdutoServlet extends HttpServlet {
         List<Categoria> categorias = null;
         CategoriaDAO categoriaDAO = new CategoriaDAO();
         categorias = categoriaDAO.listar();
-        request.setAttribute("produtos", categorias);
+        request.setAttribute("categorias", categorias);
     }
 
     protected Produto selecionar(HttpServletRequest request,
