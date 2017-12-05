@@ -9,10 +9,10 @@
 
             <div style="width: 300px; ">        
                 <ul class="nav flex-column menu-vertical">
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="ProdutoServlet?op=novo"><i class="material-icons">add</i> Inserir</a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="ProdutoServlet?op=list_table"><i class="material-icons">list</i> Listar</a>
                     </li>
                 </ul>
@@ -32,10 +32,10 @@
                     <h3>Cadastrar Produto</h3>
                     <form method="post" action="ProdutoServlet?op=img" enctype="multipart/form-data">
                         <c:if test="${img_name!=null}">
-                            <img src="img_produto/${img_name}" class="w-50 mx-auto">
+                            <img src="img_produto/${img_name}" class="w-25">
                         </c:if>
                         <c:if test="${img_name==null}">
-                            <img src="img/no-image.jpg" class="w-50 mx-auto"/>
+                            <img src="img/no-image.jpg" class="w-25"/>
                         </c:if>
 
                         <div class="form-group">
@@ -67,7 +67,10 @@
                             </select>
                         </div>
                         <c:if test="${url!=null}">
-                            <input type="text" value="${url}" name="url"/>
+                            <input type="hidden" value="${url}" name="url"/>
+                        </c:if>
+                        <c:if test="${url==null}">
+                            <input type="hidden" value="img/no-image.jpg" name="url"/>
                         </c:if>
                         <div>
                             <button type="submit" class="btn btn-success">Cadastrar</button>

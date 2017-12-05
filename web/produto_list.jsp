@@ -14,7 +14,12 @@
                 </c:if>
                 <c:forEach var="o" items="${produtos}" >
                     <div class="produto">
-                        <img src="img/no-image.jpg" class="w-100"/>
+                        <c:if test="${o.url==null}">
+                            <img src="img/no-image.jpg" class="w-100"/>
+                        </c:if>
+                        <c:if test="${o.url!=null}">
+                            <img src="${o.url}" class="w-100"/>
+                        </c:if>
                         <p>Nome: ${o.nome}</p>
                         <p>Preço: ${o.preco}</p>
                         <p>Categoria: ${o.categoria_id}</p>
@@ -25,7 +30,7 @@
         </div>
         <script>
             $(".favorito").click(function () {
-                $(this).toggleClass( "btn-danger");
+                $(this).toggleClass("btn-danger");
             });
         </script>
     </body>

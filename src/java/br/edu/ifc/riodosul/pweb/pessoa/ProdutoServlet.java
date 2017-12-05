@@ -67,12 +67,13 @@ public class ProdutoServlet extends HttpServlet {
             destino = "produto_form.jsp";
         } else if (op.equalsIgnoreCase("INC")) {
             a = incluir_produto(request, response);
-            destino = "produto_table.jsp";
+            destino = "produto_table.jsp?op=list_table";
         } else if (op.equalsIgnoreCase("IMG")) {
             prepararForm(request, response);
             upload_img(request, response);
-
-            
+        } else if (op.equalsIgnoreCase("DEL")) {
+            remover_produto(request, response);
+            destino = "produto_table.jsp";
         }
         //
         RequestDispatcher dispatcher = request
@@ -94,7 +95,7 @@ public class ProdutoServlet extends HttpServlet {
         List<Categoria> categorias = null;
         CategoriaDAO categoriaDAO = new CategoriaDAO();
         categorias = categoriaDAO.listar();
-        request.setAttribute("categorias", categorias);
+        request.setAttribute("produtos", categorias);
     }
 
     protected Produto selecionar(HttpServletRequest request,
@@ -182,9 +183,10 @@ public class ProdutoServlet extends HttpServlet {
                     }
                     fos.flush();
                     fos.close();
-                    request.setAttribute("url", caminho);
+                    request.setAttribute("url", "img_produto/" + i.getName());
                     request.setAttribute("img_name", i.getName());
-                    String destino = "produto_form.jsp?op=novo";
+                    String destino = "produto_form.jsp";
+                    
                     RequestDispatcher dispatcher = request
                             .getRequestDispatcher(destino);
                     dispatcher.forward(request, response);
