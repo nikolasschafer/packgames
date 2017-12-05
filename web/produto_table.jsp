@@ -19,7 +19,7 @@
                         <a class="nav-link" href="produto_form.jsp"><i class="material-icons">add</i> Inserir</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="ProdutoServlet?op=list"><i class="material-icons">list</i> Listar</a>
+                        <a class="nav-link" href="ProdutoServlet?op=list_table"><i class="material-icons">list</i> Listar</a>
                     </li>
                 </ul>
             </div>
@@ -53,7 +53,7 @@
                                 <td>${o.descricao}</td>
                                 <td> 
                                     <a href="ProdutoServlet?op=alt&id=${o.id}" style="padding-right: 20px"><i class="material-icons">mode_edit</i></a>
-                                    <a href="CategoriaServlet?op=del&id=${o.id}"><i class="material-icons">delete</i></a>
+                                    <a href="ProdutoServlet?op=del&id=${o.id}"><i class="material-icons">delete</i></a>
                                 </td>
                             </tr>
                         </c:forEach>

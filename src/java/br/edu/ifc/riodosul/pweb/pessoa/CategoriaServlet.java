@@ -95,8 +95,10 @@ public class CategoriaServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
         CategoriaDAO categoriaDAO = new CategoriaDAO();
+        HttpSession session = request.getSession();
         List<Categoria> categorias = categoriaDAO.listar();
         request.setAttribute("categorias", categorias);
+        session.setAttribute("categorias", categorias);
         return categorias;
     }
 

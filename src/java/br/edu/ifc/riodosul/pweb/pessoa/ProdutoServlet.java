@@ -55,6 +55,7 @@ public class ProdutoServlet extends HttpServlet {
             destino = "produto_list.jsp";
         } else if (op.equalsIgnoreCase("inc_f")) {
             incluir_favorito(request, response);
+            listar_favorito(request, response);
             destino = "produto_list.jsp";
         } else if (op.equalsIgnoreCase("alt")) {
             alterar_produto(request, response);
@@ -65,7 +66,17 @@ public class ProdutoServlet extends HttpServlet {
         } else if (op.equalsIgnoreCase("list_b")) {
             listar_por_busca(request, response);
             destino = "produto_list.jsp";
+        } else if (op.equalsIgnoreCase("inc")) {
+            incluir_produto(request, response);
+            destino = "produto_form.jsp";
+        } else if (op.equalsIgnoreCase("del")) {
+            remover_produto(request, response);
+            destino = "produto_table.jsp";
+        } else if (op.equalsIgnoreCase("del_f")) {
+            remover_favorito(request, response);
+            destino = "produto_list.jsp";
         }
+        
         //
         RequestDispatcher dispatcher = request
                 .getRequestDispatcher(destino);
@@ -76,8 +87,10 @@ public class ProdutoServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
         ProdutoDAO produtoDAO = new ProdutoDAO();
+        HttpSession session = request.getSession();
         List<Produto> produtos = produtoDAO.listar();
         request.setAttribute("produtos", produtos);
+        session.setAttribute("produtos", produtos);
     }
 
     protected Produto selecionar(HttpServletRequest request,
@@ -157,6 +170,7 @@ public class ProdutoServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         List<Produto> produtos = new LinkedList<Produto>();
+        ProdutoDAO produtoDAO = new ProdutoDAO();
         if (session.getAttribute("produtos") != null) {
             produtos = (List<Produto>) session.getAttribute("produtos");
         }
@@ -181,6 +195,7 @@ public class ProdutoServlet extends HttpServlet {
         } else {
             a = produtos.get(pos);
             produtos.remove(a);
+            produtoDAO.excluir(a.getId());
             session.setAttribute("produtos", produtos);
             request.setAttribute("produto", a);
         }

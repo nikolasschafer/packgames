@@ -46,7 +46,7 @@ public class UsuarioDAO {
 
     public void alterar(Usuario usuario) {
         String sql = "UPDATE usuario SET"
-                + "nome='" + usuario.getNome()
+                + " nome='" + usuario.getNome()
                 + "',login='" + usuario.getLogin()
                 + "',senha='" + usuario.getSenha()
                 + "',email='" + usuario.getEmail()
