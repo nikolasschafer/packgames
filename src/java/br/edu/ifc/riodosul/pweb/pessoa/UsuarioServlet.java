@@ -180,6 +180,12 @@ public class UsuarioServlet extends HttpServlet {
         HttpSession session = request.getSession();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         Usuario usuario = usuarioDAO.login(request.getParameter("login"), request.getParameter("senha"));
+        
+        CategoriaDAO categoriaDAO = new CategoriaDAO();
+        List<Categoria> categorias = categoriaDAO.listar();
+        request.setAttribute("categorias", categorias);
+        session.setAttribute("categorias", categorias);
+        
         if (usuario == null) {
             request.setAttribute("msg",
                     "Login ou senha incorretos!");
