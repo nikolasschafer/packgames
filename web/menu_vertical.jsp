@@ -2,10 +2,12 @@
 
 <div style="width: 300px; ">        
     <ul class="nav flex-column menu-vertical">
-        <a class="nav-link" href="ProdutoServlet?op=list"><i class="material-icons">settings_input_composite</i>Todos os produtos</a>
+        <li class="categoria active">
+            <a class="nav-link" href="ProdutoServlet?op=list"><i class="material-icons">fiber_manual_record</i>Todos os produtos</a>
+        </li>
         <c:forEach var="o" items="${categorias}" >
             <li class="categoria">
-                <a class="nav-link" href="ProdutoServlet?op=list_c&categoria=${o.id}"><i class="material-icons">settings_input_composite</i>${o.nome}</a>
+                <a class="nav-link" href="ProdutoServlet?op=list_c&categoria=${o.id}"><i class="material-icons">fiber_manual_record</i>${o.nome}</a>
             </li>   
         </c:forEach>
     </ul>

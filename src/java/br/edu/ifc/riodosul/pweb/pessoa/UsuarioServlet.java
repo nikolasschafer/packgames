@@ -74,7 +74,7 @@ public class UsuarioServlet extends HttpServlet {
         String senha = request.getParameter("senha");
         String email = request.getParameter("email");
         String adminStr = request.getParameter("admin");
-        int admin = -1;
+        int admin = 0;
         if ((adminStr != null) && (!adminStr.isEmpty())) {
             admin = Integer.parseInt(adminStr);
         }

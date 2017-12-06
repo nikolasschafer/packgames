@@ -23,8 +23,18 @@
                         <p>Nome: ${o.nome}</p>
                         <p>Preço: ${o.preco}</p>
                         <p>Categoria: ${o.categoria_id}</p>
-                        <a class="favorito" href="ProdutoServlet?op=inc_f&produto_id=${o.id}"><button type="button" class="btn btn-danger favorito"><i class="material-icons">favorite_border</i> </button></a>
-                        <a class="favorito" href="ProdutoServlet?op=del_f&produto_id=${o.id}"><button type="button" class="btn favorito"><i class="material-icons">favorite_border</i> </button></a>
+                        <c:if test="${usuario != null}">
+                            <a class="favorito" href="ProdutoServlet?op=inc_f&produto_id=${o.id}">
+                                <button type="button" class="btn btn-danger favorito" data-toggle="tooltip" data-placement="top" title="Favoritar">
+                                    <i class="material-icons">favorite_border</i>
+                                </button>
+                            </a>
+                            <a class="favorito" href="ProdutoServlet?op=del_f&produto_id=${o.id}">
+                                <button type="button" class="btn favorito" data-toggle="tooltip" data-placement="top" title="Desfavoritar">
+                                    <i class="material-icons">favorite_border</i>
+                                </button>
+                            </a>
+                        </c:if>
                     </div>   
                 </c:forEach>
             </div>
@@ -33,6 +43,10 @@
             $(".favorito").click(function () {
                 $(this).toggleClass("btn-danger");
             });
+            
+            $(function(){
+                $('[data-toggle="tooltip"]').tooltip()
+            })
         </script>
     </body>
 </html>

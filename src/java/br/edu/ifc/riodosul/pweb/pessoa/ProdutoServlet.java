@@ -195,7 +195,7 @@ public class ProdutoServlet extends HttpServlet {
 
             for (FileItem i : items) {
                 if (!i.isFormField()) {
-                    String caminho = "c:/Users/Níkolas/Documents/NetBeans Projects/packgames/web/img_produto/" + i.getName();
+                    String caminho = "c:/Users/Matheus/Documents/Java/packgames/web/img_produto/" + i.getName();
                     File f = new File(caminho);
                     FileOutputStream fos = new FileOutputStream(f);
                     InputStream is = i.getInputStream();
@@ -358,7 +358,7 @@ public class ProdutoServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         ProdutoDAO produtoDAO = new ProdutoDAO();
-        Usuario cliente = (Usuario) session.getAttribute("cliente");
+        Usuario cliente = (Usuario) session.getAttribute("usuario");
         List<Favorito> favoritos = produtoDAO.listar_favoritos(cliente.getId());
 
         String produtoStr = request.getParameter("produto_id");

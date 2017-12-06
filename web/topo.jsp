@@ -1,3 +1,4 @@
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div>
@@ -7,8 +8,8 @@
             <img src="img/game_white.png" width="30" height="30" class="d-inline-block align-top" alt="">
             <b>Pack Games</b>
         </a>
-        <form class="form-inline mx-auto w-50" action="ProdutoServlet?op=list_b">
-            <input class="form-control mr-sm-2" type="search" style="width: 85%" placeholder="Pesquisar" aria-label="Search" >
+        <form class="form-inline mx-auto w-50" method="POST" action="ProdutoServlet?op=list_b">
+            <input class="form-control mr-sm-2" type="search" style="width: 85%" placeholder="Pesquisar" aria-label="Search" name="search">
             <button class="btn btn-primary btn-sm my-2 my-sm-0" type="submit"><i class="material-icons" >search</i></button>
         </form>
         <ul class="nav">

@@ -13,10 +13,8 @@
         <%@include file="topo.jsp" %>
         <div class="mx-auto w-50 p-3 mt-4" style="border: 1px solid #ccc; border-radius: 10px;">
             <form method="POST" action="UsuarioServlet">
-                <h3>Cadastrar Usuario</h3>
-                <c:if test="${usuario==null}">
+                <h3>Cadastrar Usuario</h3>             
                     <input type="hidden" name="op" value="inc"/>
-                </c:if>
                 <div class="form-group">
                     <label for="nome">Nome</label>
                     <input type="text" class="form-control" id="nome" aria-describedby="nomeHelp" placeholder="Nome" required name="nome" >
@@ -27,16 +25,16 @@
                 </div>
                 <div class="form-group">
                     <label for="inputEmail1">E-mail</label>
-                    <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="E-mail" required name="senha" >
+                    <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp" placeholder="E-mail" required name="email" >
                 </div>
                 <div class="form-group">
                     <label for="inputPassword1">Senha</label>
-                    <input type="password" class="form-control" id="inputPassword1" placeholder="Senha" required name="email" >
+                    <input type="password" class="form-control" id="inputPassword1" placeholder="Senha" required name="senha" >
                 </div>
                 <c:if test="${usuario.admin == 1}">
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input">
+                        <input type="checkbox" class="form-check-input" value=1 name="admin">
                         Administrador
                     </label>
                 </div>
