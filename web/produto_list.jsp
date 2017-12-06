@@ -13,6 +13,7 @@
                     <h2>Não existem produtos cadastrados!</h2>
                 </c:if>
                 <c:forEach var="o" items="${produtos}" >
+
                     <div class="produto">
                         <c:if test="${o.url==null}">
                             <img src="img/no-image.jpg" class="w-100"/>
@@ -23,13 +24,20 @@
                         <p>Nome: ${o.nome}</p>
                         <p>Preço: ${o.preco}</p>
                         <p>Categoria: ${o.categoria_id}</p>
-                        <a class="favorito" href="ProdutoServlet?op=inc_f&produto_id=${o.id}"><button type="button" class="btn favorito"><i class="material-icons">favorite_border</i> </button></a>
-                    </div>   
+                        <c:if test="${o.url!=null}">
+                            <a class="favorito" href="#"><button type="button" class="btn btn-danger favorito"><i class="material-icons">favorite_border</i> </button></a>
+                        </c:if>
+                    </div>
+
+
                 </c:forEach>
             </div>
         </div>
+        <c:import url="rodape.jsp" />
+
         <script>
             $(".favorito").click(function () {
+
                 $(this).toggleClass("btn-danger");
             });
         </script>

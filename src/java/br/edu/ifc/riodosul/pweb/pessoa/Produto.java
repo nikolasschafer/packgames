@@ -12,6 +12,7 @@ public class Produto implements Serializable, Comparable<Produto> {
     private String descricao;
     private int usuario_id;
     private int categoria_id;
+    private boolean favorito;
     
     private Categoria categoria;
 
@@ -78,6 +79,16 @@ public class Produto implements Serializable, Comparable<Produto> {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
+
+    public boolean isFavorito() {
+        return favorito;
+    }
+
+    public void setFavorito(boolean favorito) {
+        this.favorito = favorito;
+    }
+
+    
     
     @Override
     public int compareTo(Produto o) {

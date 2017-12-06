@@ -77,7 +77,6 @@ public class ProdutoServlet extends HttpServlet {
         } else if (op.equalsIgnoreCase("inc_f")) {
             incluir_favorito(request, response);
             listar_favorito(request, response);
-            destino = "produto_list.jsp";
         } else if (op.equalsIgnoreCase("alt")) {
             alterar_produto(request, response);
             destino = "produto_form.jsp";
@@ -94,11 +93,11 @@ public class ProdutoServlet extends HttpServlet {
             remover_favorito(request, response);
             destino = "produto_list.jsp";
         }
-        
-        //
+
         RequestDispatcher dispatcher = request
                 .getRequestDispatcher(destino);
         dispatcher.forward(request, response);
+
     }
 
     protected void listar(HttpServletRequest request,
@@ -109,6 +108,26 @@ public class ProdutoServlet extends HttpServlet {
         List<Produto> produtos = produtoDAO.listar();
         request.setAttribute("produtos", produtos);
         session.setAttribute("produtos", produtos);
+        request.setAttribute("favoritos", produtos);
+
+        Usuario cliente = (Usuario) session.getAttribute("usuario");
+        List<Favorito> favoritos = produtoDAO.listar_favoritos(cliente.getId());
+        List<Produto> produtos_fav = produtoDAO.produtos_favoritos(favoritos);
+        List<Produto> new_list = null;
+
+        for (int i = 0; i < produtos.size() ; i++) {
+            Produto prod = produtos.get(i);
+            for (int k = 0; k < produtos_fav.size(); k++) {
+                Produto fav = produtos_fav.get(k);
+                if (fav.getId() == prod.getId()) {
+                    new_list.add(fav);
+                } else {
+                    new_list.add(prod);
+                }
+            }
+        }
+
+        request.setAttribute("produtos", produtos);
     }
 
     protected void prepararForm(HttpServletRequest request,
@@ -208,7 +227,7 @@ public class ProdutoServlet extends HttpServlet {
                     request.setAttribute("url", "img_produto/" + i.getName());
                     request.setAttribute("img_name", i.getName());
                     String destino = "produto_form.jsp";
-                    
+
                     RequestDispatcher dispatcher = request
                             .getRequestDispatcher(destino);
                     dispatcher.forward(request, response);
@@ -216,31 +235,6 @@ public class ProdutoServlet extends HttpServlet {
             }
         } catch (FileUploadException ex) {
             Logger.getLogger(ProdutoServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    protected void faz_porra_do_upload(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
-
-        /*Identifica se o formulario é do tipo multipart/form-data*/
-        if (ServletFileUpload.isMultipartContent(request)) {
-            try {
-                /*Faz o parse do request*/
-                List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-
-                /*Escreve a o arquivo na pasta img*/
-                for (FileItem item : multiparts) {
-                    if (!item.isFormField()) {
-                        item.write(new File("c:/Users/Níkolas/Documents/NetBeans Projects/packgames/web/img_produto/" + item.getName()));
-                    }
-                }
-                request.setAttribute("message", "Arquivo carregado com sucesso");
-            } catch (Exception ex) {
-                request.setAttribute("message", "Upload de arquivo falhou devido a " + ex);
-            }
-
-        } else {
-            request.setAttribute("message", "Desculpe este Servlet lida apenas com pedido de upload de arquivos");
         }
     }
 
@@ -330,7 +324,7 @@ public class ProdutoServlet extends HttpServlet {
     /*
         Método responsável por listar favoritos
      */
-    protected void listar_favorito(HttpServletRequest request,
+    protected List<Produto> listar_favorito(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -341,6 +335,7 @@ public class ProdutoServlet extends HttpServlet {
         List<Produto> produtos = produtoDAO.produtos_favoritos(favoritos);
 
         request.setAttribute("produtos", produtos);
+        return produtos;
     }
 
     /**
@@ -388,7 +383,7 @@ public class ProdutoServlet extends HttpServlet {
         }
         return a;
     }
-    
+
     protected Produto alterar_produto(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
@@ -438,17 +433,17 @@ public class ProdutoServlet extends HttpServlet {
         List<Produto> produtos = produtoDAO.listar_por_categoria(categoria);
         request.setAttribute("produtos", produtos);
     }
-    
+
     protected void listar_por_busca(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
         ProdutoDAO produtoDAO = new ProdutoDAO();
         String busca = request.getParameter("search");
-        
+
         List<Produto> produtos = produtoDAO.listar_por_busca(busca);
         request.setAttribute("produtos", produtos);
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

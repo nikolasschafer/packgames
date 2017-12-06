@@ -193,6 +193,7 @@ public class ProdutoDAO {
                 a.setUsuario_id(rs.getInt("usuario_id"));
                 a.setDescricao(rs.getString("descricao"));
                 a.setCategoria_id(rs.getInt("categoria_id"));
+                a.setFavorito(true);
                 saida.add(a);
             }
         } catch (Exception e) {
